@@ -1,0 +1,114 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05906cbfb8992f1499d54a0016b2a763, type: 3}
+  m_Name: GameDatabase
+  m_EditorClassIdentifier: Assembly-CSharp::GameDatabase
+  ingredientDatabase:
+  - ingredientType: 0
+    ingredientSprite: {fileID: -4908744813380903690, guid: b5e8cd3c87d89104f89b66671f59e901, type: 3}
+    scaleMultiplier: 1
+  - ingredientType: 1
+    ingredientSprite: {fileID: -531253404585133563, guid: edfdac0d371a46246b68b65a839a775d, type: 3}
+    scaleMultiplier: 1
+  - ingredientType: 2
+    ingredientSprite: {fileID: 6586461156150141773, guid: ec2fe36a29705e24dad4b74e4617d37a, type: 3}
+    scaleMultiplier: 1
+  - ingredientType: 3
+    ingredientSprite: {fileID: -205270267638800340, guid: f7494780ffbbcd445bbedd27a3a5769b, type: 3}
+    scaleMultiplier: 1
+  - ingredientType: 4
+    ingredientSprite: {fileID: 5781445747943558089, guid: 5585bea43f247e94aa209c317945ab67, type: 3}
+    scaleMultiplier: 1
+  - ingredientType: 5
+    ingredientSprite: {fileID: 7776255403194780300, guid: 22101aea0b2508e4ba470dc13e2b6331, type: 3}
+    scaleMultiplier: 1
+  - ingredientType: 6
+    ingredientSprite: {fileID: 5643089532461076601, guid: e3bac4f089e0a41419102e02edb8b66c, type: 3}
+    scaleMultiplier: 1
+  - ingredientType: 7
+    ingredientSprite: {fileID: -2878320109393178341, guid: 32355363a216a4045a5b7161e1598161, type: 3}
+    scaleMultiplier: 1
+  - ingredientType: 8
+    ingredientSprite: {fileID: -6529098017842151037, guid: c947e270108c85a42bea31c29c179a6e, type: 3}
+    scaleMultiplier: 1
+  - ingredientType: 9
+    ingredientSprite: {fileID: 3652569919318475261, guid: b201bea0677831846bed996be1a5d725, type: 3}
+    scaleMultiplier: 1
+  - ingredientType: 10
+    ingredientSprite: {fileID: 1674166220737918612, guid: e318ecf91f54ded4e9b9bf63684036ca, type: 3}
+    scaleMultiplier: 1
+  - ingredientType: 11
+    ingredientSprite: {fileID: -5847443036172868169, guid: 9df78d7633267c246bf446851e919945, type: 3}
+    scaleMultiplier: 0.85
+  - ingredientType: 12
+    ingredientSprite: {fileID: -1527903266261771865, guid: 8e549567f623f434ca7bdb8bbc4d13b0, type: 3}
+    scaleMultiplier: 1
+  - ingredientType: 13
+    ingredientSprite: {fileID: -4192499792280372823, guid: c4a7d1013f67bfa478bc53fe664bed80, type: 3}
+    scaleMultiplier: 1
+  witchSprite: {fileID: 21300000, guid: 95526465d6faad943a9c62659d0f8287, type: 3}
+  elfSprite: {fileID: 21300000, guid: effe02bda8600d740b319c7c6676df98, type: 3}
+  goblinSprite: {fileID: 21300000, guid: 2e9d027e197d81a439c1d72244d2b5d9, type: 3}
+  demonSprite: {fileID: 21300000, guid: decace5a137787d46bd5a826e085a5de, type: 3}
+  dwarfSprite: {fileID: 21300000, guid: a459e759050519140a136609546f06f9, type: 3}
+  numberSprites:
+  - {fileID: 0}
+  - {fileID: -5564432789311739264, guid: 88cea16189aad144fa1fae54f97c7639, type: 3}
+  - {fileID: 7392009017867078147, guid: d9af3be2198e8fa42800b1d7a8bafebf, type: 3}
+  - {fileID: 2838076640422172221, guid: 9ba0a1b28e4bda946833bf3d901da597, type: 3}
+  - {fileID: 6607277756042417074, guid: d426f7bd48582ea42846d4eac0228007, type: 3}
+  - {fileID: -5563686456376033157, guid: b21c8f7b1c3dc82408d38618fa7c39f4, type: 3}
+  - {fileID: 6889740906581766389, guid: b084645729b29454e831b94db038354c, type: 3}
+  allRecipes:
+  - potionType: 0
+    potionSprite: {fileID: -2615874204119335, guid: 04b9118dfd4790e41ada8487eaf1a8b4, type: 3}
+    steps:
+    - ingredientType: 5
+      requiredQuantity: 5
+    - ingredientType: 0
+      requiredQuantity: 3
+  - potionType: 1
+    potionSprite: {fileID: -6099873399732076034, guid: a7b3cdfba83f3fd4199a62758275d557, type: 3}
+    steps:
+    - ingredientType: 4
+      requiredQuantity: 6
+    - ingredientType: 1
+      requiredQuantity: 4
+  - potionType: 3
+    potionSprite: {fileID: 8166710274925509176, guid: bf9192a72cc8bdf4098a3dceeeb27070, type: 3}
+    steps:
+    - ingredientType: 9
+      requiredQuantity: 5
+    - ingredientType: 6
+      requiredQuantity: 4
+    - ingredientType: 3
+      requiredQuantity: 3
+  - potionType: 4
+    potionSprite: {fileID: -8425141836431729757, guid: 23aba5c157cc8ff4c948ad08a6eeb469, type: 3}
+    steps:
+    - ingredientType: 13
+      requiredQuantity: 6
+    - ingredientType: 11
+      requiredQuantity: 4
+    - ingredientType: 7
+      requiredQuantity: 2
+  - potionType: 2
+    potionSprite: {fileID: -2093324750932669864, guid: abd733066b5b12d44b1c3928f4f23da8, type: 3}
+    steps:
+    - ingredientType: 8
+      requiredQuantity: 6
+    - ingredientType: 10
+      requiredQuantity: 4
+    - ingredientType: 12
+      requiredQuantity: 3
+    - ingredientType: 2
+      requiredQuantity: 2
