@@ -5,8 +5,8 @@ using TMPro;
 public class LevelProgressBar : MonoBehaviour
 {
     [Header("UI References")]
-    [Tooltip("Kéo ảnh ThanhXanhLa (đã chỉnh Image Type thành Filled) vào đây")]
-    public Image fillImage; 
+    [Tooltip("Kéo ThanhXanhLa vào đây (Sẽ thay đổi độ rộng của nó)")]
+    public RectTransform fillRect; 
     
     [Tooltip("Kéo chữ ChuTienDo (TextMeshPro) vào đây")]
     public TextMeshProUGUI progressText;
@@ -14,6 +14,9 @@ public class LevelProgressBar : MonoBehaviour
     [Header("Settings")]
     public int maxValue = 30;
     public int currentValue = 11;
+    
+    [Tooltip("Chiều dài tối đa của thanh xanh khi đầy kịch kim (Ví dụ: 500)")]
+    public float maxWidth = 400f;
 
     // Chạy thử 1 lần lúc mới vào game
     void Start()
@@ -40,10 +43,11 @@ public class LevelProgressBar : MonoBehaviour
     // Hàm này tính toán thanh dài ngắn và hiển thị số
     public void UpdateUI()
     {
-        // Kéo độ dài thanh xanh lá
-        if (fillImage != null && maxValue > 0)
+        // Thay đổi chiều dài thanh xanh lá (giữ nguyên độ cao)
+        if (fillRect != null && maxValue > 0)
         {
-            fillImage.fillAmount = (float)currentValue / maxValue;
+            float percent = Mathf.Clamp01((float)currentValue / maxValue);
+            fillRect.sizeDelta = new Vector2(maxWidth * percent, fillRect.sizeDelta.y);
         }
         
         // Cập nhật chữ hiển thị

@@ -106,11 +106,9 @@ public class PotionItem : MonoBehaviour
         if (isOnBelt)
         {
             timeOnBelt += Time.deltaTime;
-            // Check distance to customer
-            float distToCustomer = Vector2.Distance(transform.position, targetLane.customerRenderer.transform.position);
             
-            // Wait at least 1.5s on belt to make sure it visibly rides it
-            if (timeOnBelt > 1.5f && distToCustomer < 3.5f) 
+            // Bay đến khách hàng sau khi nằm trên băng chuyền được 1.5 giây (bỏ giới hạn khoảng cách để linh hoạt hơn)
+            if (timeOnBelt > 1.5f) 
             {
                 isDelivered = true;
                 isOnBelt = false;

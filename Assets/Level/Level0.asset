@@ -23,6 +23,8 @@ MonoBehaviour:
   greenQueue:
   - customerName: 1
     potion: 1
+  - customerName: 2
+    potion: 1
   ingredientLanes:
   - groups:
     - ingredientType: 9

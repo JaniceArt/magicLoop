@@ -21,6 +21,7 @@ public class LevelManager : MonoBehaviour
     public GameDatabase database;
     public LevelData currentLevel;
     public GameObject potionPrefab;
+    public GameObject magicEffectPrefab; // Hiệu ứng lúc khách biến mất
     public LevelProgressBar progressBar; // Thêm biến chứa thanh tiến độ
 
     public LaneState pinkLane = new LaneState();
@@ -57,13 +58,18 @@ public class LevelManager : MonoBehaviour
 
     void LoadNextCustomer(LaneState lane)
     {
+        Debug.Log($"LoadNextCustomer called for lane {lane.cauldron?.gameObject.name}. Index: {lane.currentCustomerIndex}, Queue Size: {lane.queue?.Count}");
+        
         if (lane.queue != null && lane.currentCustomerIndex < lane.queue.Count)
         {
             var customer = lane.queue[lane.currentCustomerIndex];
+            Debug.Log($"Loading customer: {customer.customerName} who ordered {customer.potion}");
             
             if (lane.customerRenderer != null && database != null)
             {
-                lane.customerRenderer.sprite = database.GetCustomerSprite(customer.customerName);
+                Sprite s = database.GetCustomerSprite(customer.customerName);
+                lane.customerRenderer.sprite = s;
+                Debug.Log($"Assigned sprite for {customer.customerName}: {(s != null ? s.name : "NULL!")}");
             }
             
             if (lane.customerBubbleObject != null) lane.customerBubbleObject.SetActive(true);
@@ -78,10 +84,10 @@ public class LevelManager : MonoBehaviour
         }
         else
         {
+            lane.isProcessing = false; // Đã hết khách, tắt máy nghỉ ngơi
             if (lane.customerRenderer != null) lane.customerRenderer.sprite = null;
             if (lane.customerBubbleObject != null) lane.customerBubbleObject.SetActive(false);
             if (lane.customerPotionRenderer != null) lane.customerPotionRenderer.sprite = null;
-            lane.isProcessing = false;
         }
     }
 
@@ -151,9 +157,37 @@ public class LevelManager : MonoBehaviour
     {
         if (lane != null)
         {
-            lane.isWaitingForDelivery = false;
-            lane.currentCustomerIndex++;
-            LoadNextCustomer(lane);
+            StartCoroutine(CustomerTransitionRoutine(lane));
         }
+    }
+
+    IEnumerator CustomerTransitionRoutine(LaneState lane)
+    {
+        // 1. Tạm ẩn khách cũ và tắt bong bóng
+        if (lane.customerRenderer != null) lane.customerRenderer.enabled = false;
+        if (lane.customerBubbleObject != null) lane.customerBubbleObject.SetActive(false);
+
+        // 2. Bắn hiệu ứng bùm chéo
+        if (magicEffectPrefab != null && lane.customerRenderer != null)
+        {
+            // Ép Z = -5 để đảm bảo hiệu ứng luôn nổi lên trên cùng, không bị phông nền che mất
+            Vector3 fxPos = lane.customerRenderer.transform.position;
+            fxPos.z = -5f;
+            
+            GameObject vfx = Instantiate(magicEffectPrefab, fxPos, Quaternion.identity);
+            Debug.Log("💥 Đã spawn hiệu ứng ma thuật tại: " + fxPos);
+            Destroy(vfx, 3f); // Tự động xóa rác sau 3 giây (tránh giật lag)
+        }
+
+        // 3. Cứ cho nổ, và lập tức chuyển sang khách tiếp theo luôn (không bắt người chơi đợi)
+        yield return new WaitForSeconds(0.1f); // Dừng đúng 1 nhịp siêu ngắn để cảm nhận độ giật
+
+        // 4. Chuyển chỉ mục sang khách tiếp theo
+        lane.isWaitingForDelivery = false;
+        lane.currentCustomerIndex++;
+
+        // 5. Khôi phục trạng thái và nạp khách mới (nếu hết khách thì LoadNextCustomer sẽ tự tắt isProcessing)
+        if (lane.customerRenderer != null) lane.customerRenderer.enabled = true;
+        LoadNextCustomer(lane);
     }
 }
