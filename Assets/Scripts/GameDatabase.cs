@@ -13,7 +13,7 @@ public class GameDatabase : ScriptableObject
         public float scaleMultiplier = 1.0f;
     }
 
-    // We no longer need CustomerSpriteData struct, so we remove it.
+
 
     [System.Serializable]
     public class RecipeStep
@@ -83,6 +83,11 @@ public class GameDatabase : ScriptableObject
         int safeIndex = Mathf.Clamp(amount, 0, numberSprites.Length - 1);
         return numberSprites[safeIndex];
     }
+
+    [Header("Locked Lane Feature")]
+    public Sprite keySprite;
+    public GameObject lockedLanePrefab;
+    public Sprite[] keyNumberSprites = new Sprite[10];
 
     public Sprite GetPotionSprite(PotionType type)
     {

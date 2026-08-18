@@ -12,7 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7baac7f99c30f1045b099090aead6f4b, type: 3}
   m_Name: Level0
   m_EditorClassIdentifier: Assembly-CSharp::LevelData
-  selectedLayout: 1
+  levelNumber: 1
+  selectedLayout: 2
+  winCoinReward: 200
+  loseCoinPenalty: 120
   pinkQueue:
   - customerName: 0
     potion: 3
@@ -26,20 +29,60 @@ MonoBehaviour:
   - customerName: 2
     potion: 1
   ingredientLanes:
-  - groups:
+  - isLocked: 1
+    requiredKeys: 3
+    groups:
     - ingredientType: 9
       quantity: 2
+      isMystery: 0
+      hasKey: 1
+      keyIndex: 2
     - ingredientType: 6
       quantity: 4
+      isMystery: 0
+      hasKey: 0
+      keyIndex: 0
     - ingredientType: 3
       quantity: 3
-  - groups:
+      isMystery: 0
+      hasKey: 0
+      keyIndex: 0
+  - isLocked: 0
+    requiredKeys: 1
+    groups:
     - ingredientType: 4
       quantity: 6
+      isMystery: 0
+      hasKey: 1
+      keyIndex: 5
     - ingredientType: 1
       quantity: 4
-  - groups:
+      isMystery: 0
+      hasKey: 1
+      keyIndex: 1
+  - isLocked: 0
+    requiredKeys: 1
+    groups:
     - ingredientType: 4
       quantity: 6
+      isMystery: 0
+      hasKey: 1
+      keyIndex: 4
     - ingredientType: 1
       quantity: 4
+      isMystery: 0
+      hasKey: 0
+      keyIndex: 0
+  - isLocked: 1
+    requiredKeys: 1
+    groups:
+    - ingredientType: 4
+      quantity: 30
+      isMystery: 0
+      hasKey: 0
+      keyIndex: 4
+    - ingredientType: 1
+      quantity: 4
+      isMystery: 0
+      hasKey: 0
+      keyIndex: 0

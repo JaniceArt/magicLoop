@@ -7,8 +7,8 @@ public class LaneManager : MonoBehaviour
     [System.Serializable]
     public class LaneLayoutConfig
     {
-        public GameObject layoutImage; // Hình ảnh background của đường ray
-        public Transform[] startPoints; // Kéo các mồi nấm vào đây
+        public GameObject layoutImage;
+        public Transform[] startPoints;
     }
 
     public LaneLayoutConfig layout2Lanes;
@@ -18,11 +18,24 @@ public class LaneManager : MonoBehaviour
     [Header("Ingredient Settings")]
     public GameObject ingredientPrefab; 
     public float verticalSpacing = 1.0f; 
-    public int baseSortingOrder = 10;
+    public int maxSortingOrder = 40;
 
     private List<List<Ingredient>> activeLanes = new List<List<Ingredient>>();
     private LevelManager levelManager;
     private Dictionary<Ingredient, Coroutine> moveCoroutines = new Dictionary<Ingredient, Coroutine>();
+
+    public static LaneManager Instance;
+
+    [Header("Locked Lane Feature")]
+    public int lockedLaneIndex = -1;
+    public int totalKeysRequired = 0;
+    public int currentKeysCollected = 0;
+    public LockVisual activeLock;
+
+    void Awake()
+    {
+        Instance = this;
+    }
 
     void Start()
     {
@@ -84,22 +97,41 @@ public class LaneManager : MonoBehaviour
                         if (i < levelManager.currentLevel.ingredientLanes.Count)
                         {
                             var laneData = levelManager.currentLevel.ingredientLanes[i];
+
+                            if (laneData.isLocked)
+                            {
+                                lockedLaneIndex = i;
+                                totalKeysRequired = laneData.requiredKeys;
+                            }
+
                             foreach (var group in laneData.groups)
                             {
                                 for (int count = 0; count < group.quantity; count++)
                                 {
-                                    SpawnIngredient(group.ingredientType, startPoint, i, laneIngredients);
+                                    bool isKeyHolder = group.hasKey && count == group.keyIndex;
+                                    SpawnIngredient(group.ingredientType, startPoint, i, laneIngredients, isKeyHolder);
                                 }
                             }
                         }
                         UpdatePositionsAndSorting(i, startPoint);
                     }
                 }
+
+                if (lockedLaneIndex != -1 && totalKeysRequired > 0 && levelManager.database.lockedLanePrefab != null)
+                {
+                    Transform lockedStart = activeLayout.startPoints[lockedLaneIndex];
+                    GameObject lockObj = Instantiate(levelManager.database.lockedLanePrefab, lockedStart.position + Vector3.down * 1.5f, Quaternion.identity, transform);
+                    activeLock = lockObj.GetComponent<LockVisual>();
+                    if (activeLock != null)
+                    {
+                        activeLock.UpdateNumber(totalKeysRequired, levelManager.database);
+                    }
+                }
             }
         }
     }
 
-    void SpawnIngredient(IngredientType type, Transform startPoint, int laneIndex, List<Ingredient> laneIngredients)
+    void SpawnIngredient(IngredientType type, Transform startPoint, int laneIndex, List<Ingredient> laneIngredients, bool hasKey)
     {
         if (ingredientPrefab == null || startPoint == null) return;
         
@@ -110,6 +142,7 @@ public class LaneManager : MonoBehaviour
         ing.ingredientType = type;
         ing.laneManager = this; 
         ing.laneIndex = laneIndex;
+        ing.hasKey = hasKey;
         
         SpriteRenderer sr = go.GetComponent<SpriteRenderer>();
         if (sr != null)
@@ -120,6 +153,18 @@ public class LaneManager : MonoBehaviour
         if (go.GetComponent<BoxCollider2D>() == null && go.GetComponent<CircleCollider2D>() == null)
         {
             go.AddComponent<BoxCollider2D>();
+        }
+
+        if (hasKey && levelManager.database.keySprite != null)
+        {
+            GameObject keyObj = new GameObject("KeyVisual");
+            keyObj.transform.SetParent(go.transform);
+            keyObj.transform.localPosition = Vector3.zero; 
+            keyObj.transform.localScale = Vector3.one * 2f;
+            SpriteRenderer keySr = keyObj.AddComponent<SpriteRenderer>();
+            keySr.sprite = levelManager.database.keySprite;
+            keySr.sortingOrder = sr != null ? sr.sortingOrder + 1 : 50; 
+            ing.keyVisual = keyObj.transform;
         }
 
         laneIngredients.Add(ing);
@@ -165,19 +210,20 @@ public class LaneManager : MonoBehaviour
             SpriteRenderer sr = ing.GetComponent<SpriteRenderer>();
             if (sr != null)
             {
-                sr.sortingOrder = baseSortingOrder + (laneIngredients.Count - i);
+                sr.sortingOrder = maxSortingOrder - i;
             }
         }
     }
 
     IEnumerator SmoothMove(Transform t, Vector3 target)
     {
-        while (t != null && Vector3.Distance(t.position, target) > 0.05f)
+        Ingredient ing = t != null ? t.GetComponent<Ingredient>() : null;
+        while (t != null && ing != null && ing.laneManager == this && Vector3.Distance(t.position, target) > 0.05f)
         {
             t.position = Vector3.MoveTowards(t.position, target, 5f * Time.deltaTime);
             yield return null;
         }
-        if (t != null) t.position = target;
+        if (t != null && ing != null && ing.laneManager == this) t.position = target;
     }
 
     public bool IsTopIngredient(Ingredient ing)
@@ -217,6 +263,26 @@ public class LaneManager : MonoBehaviour
                 int savedLaneIndex = ing.laneIndex;
                 ing.laneManager = null;
                 UpdatePositionsAndSorting(savedLaneIndex); 
+            }
+        }
+    }
+
+    public bool IsLaneLocked(int laneIndex)
+    {
+        return lockedLaneIndex == laneIndex && currentKeysCollected < totalKeysRequired;
+    }
+
+    public void OnKeyCollected()
+    {
+        currentKeysCollected++;
+        if (activeLock != null)
+        {
+            int remaining = totalKeysRequired - currentKeysCollected;
+            activeLock.UpdateNumber(remaining, levelManager.database);
+            
+            if (remaining <= 0)
+            {
+                activeLock.Unlock();
             }
         }
     }

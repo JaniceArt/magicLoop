@@ -11,6 +11,11 @@ public class Ingredient : MonoBehaviour
 
     [HideInInspector] public bool isSlotted = false;
     [HideInInspector] public bool isBeingAbsorbed = false;
+    [HideInInspector] public bool isFlying = false;
+
+    [Header("Locked Lane Feature")]
+    public bool hasKey = false;
+    public Transform keyVisual;
 
     private Collider2D col;
     private static int lastClickFrame = -1;
@@ -43,6 +48,11 @@ public class Ingredient : MonoBehaviour
 
     public void HandleClick()
     {
+        if (LaneManager.Instance != null && LaneManager.Instance.IsLaneLocked(this.laneIndex))
+        {
+            return;
+        }
+
         if (laneManager != null)
         {
             Ingredient topIng = laneManager.GetTopIngredient(this.laneIndex);
@@ -54,7 +64,7 @@ public class Ingredient : MonoBehaviour
         }
 
         Debug.Log("Radar xác nhận đã click vào nấm trên cùng: " + gameObject.name);
-        if (isSlotted || isBeingAbsorbed) return;
+        if (isSlotted || isBeingAbsorbed || isFlying) return;
 
         SlotMovement[] allSlots = FindObjectsByType<SlotMovement>(FindObjectsSortMode.None);
         SlotMovement targetSlot = null;
@@ -75,9 +85,40 @@ public class Ingredient : MonoBehaviour
 
         if (targetSlot != null)
         {
-            if (laneManager != null) laneManager.PopIngredient(this);
-            targetSlot.isEmpty = false; 
+            targetSlot.isEmpty = false;
+
+            if (hasKey && keyVisual != null && LaneManager.Instance != null && LaneManager.Instance.activeLock != null)
+            {
+                keyVisual.SetParent(null);
+                StartCoroutine(FlyKeyToLock(keyVisual, LaneManager.Instance.activeLock.transform.position));
+                hasKey = false;
+            }
+
+            if (laneManager != null)
+            {
+                laneManager.PopIngredient(this);
+            }
+            
+            isFlying = true;
+            
             StartCoroutine(FlyToSlot(targetSlot));
+        }
+    }
+
+    IEnumerator FlyKeyToLock(Transform key, Vector3 lockPos)
+    {
+        while (key != null && Vector3.Distance(key.position, lockPos) > 0.1f)
+        {
+            key.position = Vector3.MoveTowards(key.position, lockPos, (flySpeed * 0.4f) * Time.deltaTime);
+            yield return null;
+        }
+        if (key != null)
+        {
+            Destroy(key.gameObject);
+        }
+        if (LaneManager.Instance != null)
+        {
+            LaneManager.Instance.OnKeyCollected();
         }
     }
 
@@ -85,15 +126,22 @@ public class Ingredient : MonoBehaviour
     {
         if (col != null) col.enabled = false; 
 
-        while (Vector3.Distance(transform.position, slot.transform.position) > 0.1f)
+
+        transform.SetParent(slot.transform);
+        Vector3 startLocalPos = transform.localPosition;
+        float t = 0;
+
+        while (t < 1f)
         {
-            transform.position = Vector3.MoveTowards(transform.position, slot.transform.position, flySpeed * Time.deltaTime);
+
+            t += Time.deltaTime * 4f; 
+            transform.localPosition = Vector3.Lerp(startLocalPos, Vector3.zero, t);
             yield return null;
         }
 
-        transform.position = slot.transform.position;
-        transform.SetParent(slot.transform); 
+        transform.localPosition = Vector3.zero;
         isSlotted = true; 
+        isFlying = false;
     }
 
     public void StartAbsorb(Transform mouth, float absorbSpeed)
@@ -104,32 +152,32 @@ public class Ingredient : MonoBehaviour
 
     IEnumerator AbsorbRoutine(Transform mouth, float absorbSpeed)
     {
-        // 1. Bay thẳng đến miệng nồi (giữ nguyên kích thước)
+
         while (Vector3.Distance(transform.position, mouth.position) > 0.1f)
         {
             transform.position = Vector3.MoveTowards(transform.position, mouth.position, absorbSpeed * Time.deltaTime);
             yield return null;
         }
 
-        // 2. Hiệu ứng hút xoáy trôn ốc vào mặt nước
+
         SpriteRenderer sr = GetComponent<SpriteRenderer>();
         Vector3 startScale = transform.localScale;
         float t = 0;
         
         while (t < 1f)
         {
-            t += Time.deltaTime * 3f; // Thời gian xoáy tụt xuống (khoảng 0.33s)
+            t += Time.deltaTime * 3f;
             
-            // Xoay tròn chóng mặt
+
             transform.Rotate(0, 0, 1080f * Time.deltaTime); 
             
-            // Chìm dần xuống đáy vạc
+
             transform.position += Vector3.down * 1.0f * Time.deltaTime; 
             
-            // Nhỏ dần về 0
+
             transform.localScale = Vector3.Lerp(startScale, Vector3.zero, t);
             
-            // Mờ dần đi
+
             if (sr != null)
             {
                 Color c = sr.color;

@@ -112,3 +112,16 @@ MonoBehaviour:
       requiredQuantity: 3
     - ingredientType: 2
       requiredQuantity: 2
+  keySprite: {fileID: 21300000, guid: c09bb472a94eb544ab66c68c5f0fa7d2, type: 3}
+  lockedLanePrefab: {fileID: 8975085782150397781, guid: aa8368451aa7aee48b6df77931e2e347, type: 3}
+  keyNumberSprites:
+  - {fileID: 0}
+  - {fileID: -5564432789311739264, guid: 88cea16189aad144fa1fae54f97c7639, type: 3}
+  - {fileID: 7392009017867078147, guid: d9af3be2198e8fa42800b1d7a8bafebf, type: 3}
+  - {fileID: 2838076640422172221, guid: 9ba0a1b28e4bda946833bf3d901da597, type: 3}
+  - {fileID: 6607277756042417074, guid: d426f7bd48582ea42846d4eac0228007, type: 3}
+  - {fileID: -5563686456376033157, guid: b21c8f7b1c3dc82408d38618fa7c39f4, type: 3}
+  - {fileID: 6889740906581766389, guid: b084645729b29454e831b94db038354c, type: 3}
+  - {fileID: -4302546981708476908, guid: 5be7c7971b387f54ea99ab1e9d7eb5b2, type: 3}
+  - {fileID: -2401307765559721920, guid: e7848ff7332e0be4ab4e321afa21990f, type: 3}
+  - {fileID: 8588235324334261916, guid: f2ad89fc870a2284fa940ea36359264f, type: 3}

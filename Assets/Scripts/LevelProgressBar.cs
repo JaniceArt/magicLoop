@@ -5,55 +5,54 @@ using TMPro;
 public class LevelProgressBar : MonoBehaviour
 {
     [Header("UI References")]
-    [Tooltip("Kéo ThanhXanhLa vào đây (Sẽ thay đổi độ rộng của nó)")]
-    public RectTransform fillRect; 
+    [Tooltip("Kéo cục SlotSlider vào đây!")]
+    public Slider progressSlider; 
     
-    [Tooltip("Kéo chữ ChuTienDo (TextMeshPro) vào đây")]
+    [Tooltip("Kéo chữ hiển thị số vào đây")]
     public TextMeshProUGUI progressText;
 
-    [Header("Settings")]
-    public int maxValue = 30;
-    public int currentValue = 11;
-    
-    [Tooltip("Chiều dài tối đa của thanh xanh khi đầy kịch kim (Ví dụ: 500)")]
-    public float maxWidth = 400f;
+    private SlotMovement[] allSlots;
 
-    // Chạy thử 1 lần lúc mới vào game
     void Start()
     {
-        UpdateUI();
+
+        allSlots = FindObjectsByType<SlotMovement>(FindObjectsSortMode.None);
     }
 
-    // Các script khác (ví dụ lúc giao thuốc thành công) có thể gọi hàm này để tự cập nhật thanh
-    public void SetProgress(int current, int max)
+    void Update()
     {
-        currentValue = current;
-        maxValue = max;
-        UpdateUI();
-    }
 
-    // Gọi hàm này để cộng thêm điểm tiến độ
-    public void AddProgress(int amount = 1)
-    {
-        currentValue += amount;
-        if (currentValue > maxValue) currentValue = maxValue;
-        UpdateUI();
-    }
+        if (allSlots == null || allSlots.Length == 0) return;
 
-    // Hàm này tính toán thanh dài ngắn và hiển thị số
-    public void UpdateUI()
-    {
-        // Thay đổi chiều dài thanh xanh lá (giữ nguyên độ cao)
-        if (fillRect != null && maxValue > 0)
+        int maxValue = allSlots.Length;
+        int currentValue = 0;
+
+        foreach (var slot in allSlots)
+        {
+            if (!slot.isEmpty)
+            {
+                currentValue++;
+            }
+        }
+
+
+        if (progressSlider != null)
         {
             float percent = Mathf.Clamp01((float)currentValue / maxValue);
-            fillRect.sizeDelta = new Vector2(maxWidth * percent, fillRect.sizeDelta.y);
+            progressSlider.value = percent;
         }
         
-        // Cập nhật chữ hiển thị
         if (progressText != null)
         {
             progressText.text = currentValue.ToString() + "/" + maxValue.ToString();
+        }
+
+        if (currentValue == maxValue && maxValue > 0)
+        {
+            if (LevelManager.Instance != null)
+            {
+                LevelManager.Instance.CheckStuckCondition();
+            }
         }
     }
 }

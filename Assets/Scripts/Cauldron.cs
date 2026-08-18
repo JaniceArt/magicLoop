@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 using System.Collections.Generic;
 
 public class Cauldron : MonoBehaviour
@@ -63,9 +64,6 @@ public class Cauldron : MonoBehaviour
                 
                 if (dist <= absorbRadius)
                 {
-                    Transform targetMouth = (mouthPoint != null) ? mouthPoint : transform;
-                    ing.StartAbsorb(targetMouth, absorbSpeed);
-
                     if (ing.transform.parent != null)
                     {
                         SlotMovement slot = ing.transform.parent.GetComponent<SlotMovement>();
@@ -73,15 +71,14 @@ public class Cauldron : MonoBehaviour
                         {
                             slot.isEmpty = true;
                         }
+
+                        ing.transform.SetParent(null);
                     }
+
+                    Transform targetMouth = (mouthPoint != null) ? mouthPoint : transform;
+                    ing.StartAbsorb(targetMouth, absorbSpeed);
                     
                     remainingQuantity--;
-                    
-                    LevelManager levelManager = FindFirstObjectByType<LevelManager>();
-                    if (levelManager != null && levelManager.progressBar != null)
-                    {
-                        levelManager.progressBar.AddProgress(1);
-                    }
                     
                     if (remainingQuantity <= 0)
                     {
@@ -122,6 +119,9 @@ public class Cauldron : MonoBehaviour
             
             isBusy = false;
             currentSteps = null;
+            
+            if (GameEventHandler.Instance != null)
+                GameEventHandler.Instance.RecipeCompleted(this);
         }
     }
 
@@ -130,5 +130,11 @@ public class Cauldron : MonoBehaviour
         Gizmos.color = Color.yellow;
         Vector3 center = (absorbPoint != null) ? absorbPoint.position : transform.position;
         Gizmos.DrawWireSphere(center, absorbRadius);
+    }
+
+    public bool NeedsIngredient(IngredientType type)
+    {
+        if (!isBusy || currentSteps == null || currentStepIndex >= currentSteps.Count) return false;
+        return currentSteps[currentStepIndex].ingredientType == type;
     }
 }

@@ -1,16 +1,20 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 
 public class LevelManager : MonoBehaviour
 {
+    public static LevelManager Instance;
+
     [System.Serializable]
     public class LaneState
     {
         public Cauldron cauldron;
         public SpriteRenderer customerRenderer;
-        public GameObject customerBubbleObject; // Toogle bubble visibility
-        public SpriteRenderer customerPotionRenderer; // Popup sprite
+        public GameObject customerBubbleObject;
+        public SpriteRenderer customerPotionRenderer;
+        public Transform deliveryPoint;
         
         [HideInInspector] public List<LevelData.CustomerOrder> queue;
         [HideInInspector] public int currentCustomerIndex = 0;
@@ -18,34 +22,35 @@ public class LevelManager : MonoBehaviour
         [HideInInspector] public bool isWaitingForDelivery = false;
     }
 
+    [Header("Level Settings")]
     public GameDatabase database;
     public LevelData currentLevel;
+    public TextMeshProUGUI levelText;
+
     public GameObject potionPrefab;
-    public GameObject magicEffectPrefab; // Hiệu ứng lúc khách biến mất
-    public LevelProgressBar progressBar; // Thêm biến chứa thanh tiến độ
+    public GameObject magicEffectPrefab;
+    public LevelProgressBar progressBar;
 
     public LaneState pinkLane = new LaneState();
     public LaneState greenLane = new LaneState();
 
+    public bool isGameOver = false;
+
+    void Awake()
+    {
+        if (Instance == null) Instance = this;
+    }
+
     IEnumerator Start()
     {
-        yield return new WaitForSeconds(0.1f); // Đợi các script khác (như Cauldron) Start xong
+        yield return new WaitForSeconds(0.1f);
         
         if (currentLevel != null)
         {
-            // Tự động đếm tổng số nguyên liệu cần thiết cho màn chơi này để gán cho thanh Tiến độ
-            if (progressBar != null)
+
+            if (levelText != null)
             {
-                int totalIngredients = 0;
-                foreach (var lane in currentLevel.ingredientLanes) 
-                {
-                    foreach (var group in lane.groups)
-                    {
-                        totalIngredients += group.quantity;
-                    }
-                }
-                
-                progressBar.SetProgress(0, totalIngredients > 0 ? totalIngredients : 32);
+                levelText.text = currentLevel.levelNumber.ToString();
             }
 
             pinkLane.queue = new List<LevelData.CustomerOrder>(currentLevel.pinkQueue);
@@ -53,6 +58,23 @@ public class LevelManager : MonoBehaviour
             
             LoadNextCustomer(pinkLane);
             LoadNextCustomer(greenLane);
+
+
+            if (GameEventHandler.Instance != null)
+            {
+                GameEventHandler.Instance.OnRecipeCompleted += HandleRecipeCompleted;
+                GameEventHandler.Instance.OnPotionDelivered += OnPotionDelivered;
+            }
+        }
+    }
+
+    void OnDestroy()
+    {
+
+        if (GameEventHandler.Instance != null)
+        {
+            GameEventHandler.Instance.OnRecipeCompleted -= HandleRecipeCompleted;
+            GameEventHandler.Instance.OnPotionDelivered -= OnPotionDelivered;
         }
     }
 
@@ -84,30 +106,24 @@ public class LevelManager : MonoBehaviour
         }
         else
         {
-            lane.isProcessing = false; // Đã hết khách, tắt máy nghỉ ngơi
+            lane.isProcessing = false;
             if (lane.customerRenderer != null) lane.customerRenderer.sprite = null;
             if (lane.customerBubbleObject != null) lane.customerBubbleObject.SetActive(false);
             if (lane.customerPotionRenderer != null) lane.customerPotionRenderer.sprite = null;
         }
     }
 
-    void Update()
+    private void HandleRecipeCompleted(Cauldron cauldron)
     {
-        if (currentLevel == null) return;
-        ProcessLane(pinkLane);
-        ProcessLane(greenLane);
-    }
+        LaneState lane = null;
+        if (pinkLane.cauldron == cauldron) lane = pinkLane;
+        else if (greenLane.cauldron == cauldron) lane = greenLane;
 
-    void ProcessLane(LaneState lane)
-    {
-        if (lane == null || !lane.isProcessing || lane.cauldron == null) return;
+        if (lane == null || !lane.isProcessing || lane.isWaitingForDelivery) return;
 
-        if (!lane.cauldron.isBusy && !lane.isWaitingForDelivery)
-        {
-            Debug.Log("ProcessLane: Cauldron is not busy and lane is not waiting for delivery. Spawning potion for lane " + lane.cauldron.gameObject.name);
-            lane.isWaitingForDelivery = true;
-            SpawnPotion(lane);
-        }
+        Debug.Log("Vạc đã nấu xong! LevelManager nhận event và chuẩn bị spawn thuốc cho lane " + cauldron.gameObject.name);
+        lane.isWaitingForDelivery = true;
+        SpawnPotion(lane);
     }
 
     void SpawnPotion(LaneState lane)
@@ -128,7 +144,7 @@ public class LevelManager : MonoBehaviour
             Debug.Log("Created empty PotionItem GameObject");
         }
         
-        // Spawn at Cauldron's designated spawn point or mouth
+
         Vector3 spawnPos = lane.cauldron.transform.position;
         if (lane.cauldron.spawnPoint != null)
         {
@@ -147,7 +163,6 @@ public class LevelManager : MonoBehaviour
 
         PotionItem potionItem = potionGO.GetComponent<PotionItem>();
         if (potionItem == null) potionItem = potionGO.AddComponent<PotionItem>();
-        potionItem.levelManager = this;
         potionItem.targetLane = lane;
         
         potionGO.SetActive(true);
@@ -163,31 +178,112 @@ public class LevelManager : MonoBehaviour
 
     IEnumerator CustomerTransitionRoutine(LaneState lane)
     {
-        // 1. Tạm ẩn khách cũ và tắt bong bóng
+
         if (lane.customerRenderer != null) lane.customerRenderer.enabled = false;
         if (lane.customerBubbleObject != null) lane.customerBubbleObject.SetActive(false);
 
-        // 2. Bắn hiệu ứng bùm chéo
+
         if (magicEffectPrefab != null && lane.customerRenderer != null)
         {
-            // Ép Z = -5 để đảm bảo hiệu ứng luôn nổi lên trên cùng, không bị phông nền che mất
+
             Vector3 fxPos = lane.customerRenderer.transform.position;
             fxPos.z = -5f;
             
             GameObject vfx = Instantiate(magicEffectPrefab, fxPos, Quaternion.identity);
             Debug.Log("💥 Đã spawn hiệu ứng ma thuật tại: " + fxPos);
-            Destroy(vfx, 3f); // Tự động xóa rác sau 3 giây (tránh giật lag)
+            Destroy(vfx, 3f);
         }
 
-        // 3. Cứ cho nổ, và lập tức chuyển sang khách tiếp theo luôn (không bắt người chơi đợi)
-        yield return new WaitForSeconds(0.1f); // Dừng đúng 1 nhịp siêu ngắn để cảm nhận độ giật
 
-        // 4. Chuyển chỉ mục sang khách tiếp theo
+        yield return new WaitForSeconds(0.1f);
+
+
         lane.isWaitingForDelivery = false;
         lane.currentCustomerIndex++;
 
-        // 5. Khôi phục trạng thái và nạp khách mới (nếu hết khách thì LoadNextCustomer sẽ tự tắt isProcessing)
+
         if (lane.customerRenderer != null) lane.customerRenderer.enabled = true;
         LoadNextCustomer(lane);
+        CheckWinCondition();
+    }
+
+    public void CheckWinCondition()
+    {
+        if (isGameOver) return;
+
+        bool pinkDone = pinkLane.queue == null || pinkLane.currentCustomerIndex >= pinkLane.queue.Count;
+        bool greenDone = greenLane.queue == null || greenLane.currentCustomerIndex >= greenLane.queue.Count;
+
+        if (pinkDone && greenDone)
+        {
+            isGameOver = true;
+            if (UIManager.Instance != null && currentLevel != null)
+            {
+                UIManager.Instance.ShowWinPopup(currentLevel.winCoinReward);
+            }
+        }
+    }
+
+    public void CheckStuckCondition()
+    {
+        if (isGameOver) return;
+
+        bool canFreeSlot = false;
+
+        // 1. Kiểm tra xem có lọ thuốc nào đã chiếm slot trên băng chuyền chưa.
+        // Nếu lọ thuốc đã có slot (dù đang bay tới hay đang nằm trên đó),
+        // nó sẽ cưỡi băng chuyền rồi giao cho khách, sau đó giải phóng slot đó.
+        PotionItem[] allPotions = FindObjectsByType<PotionItem>(FindObjectsSortMode.None);
+        foreach (PotionItem potion in allPotions)
+        {
+            if (potion.currentSlot != null && !potion.isDelivered)
+            {
+                canFreeSlot = true;
+                break;
+            }
+        }
+
+        // 2. Nếu không có lọ thuốc nào sắp giải phóng chỗ, kiểm tra xem Vạc có hút được món nào trên băng chuyền không.
+        if (!canFreeSlot)
+        {
+            Ingredient[] allIngredients = FindObjectsByType<Ingredient>(FindObjectsSortMode.None);
+            foreach (Ingredient ing in allIngredients)
+            {
+                if ((ing.isSlotted || ing.isFlying) && !ing.isBeingAbsorbed)
+                {
+                    bool pinkNeeds = pinkLane.cauldron != null && pinkLane.cauldron.NeedsIngredient(ing.ingredientType);
+                    bool greenNeeds = greenLane.cauldron != null && greenLane.cauldron.NeedsIngredient(ing.ingredientType);
+
+                    if (pinkNeeds || greenNeeds)
+                    {
+                        canFreeSlot = true;
+                        break;
+                    }
+                }
+            }
+        }
+
+        // Nếu hoàn toàn KHÔNG CÓ CÁCH NÀO giải phóng chỗ trống, thì mới báo Thua.
+        if (!canFreeSlot)
+        {
+            LoseGame();
+        }
+    }
+
+    public void LoseGame()
+    {
+        if (isGameOver) return;
+        
+        isGameOver = true;
+        StartCoroutine(LoseGameRoutine());
+    }
+
+    private IEnumerator LoseGameRoutine()
+    {
+        yield return new WaitForSeconds(3f);
+        if (UIManager.Instance != null && currentLevel != null)
+        {
+            UIManager.Instance.ShowLosePopup(currentLevel.loseCoinPenalty);
+        }
     }
 }
