@@ -1,0 +1,118 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7baac7f99c30f1045b099090aead6f4b, type: 3}
+  m_Name: Level12
+  m_EditorClassIdentifier: Assembly-CSharp::LevelData
+  selectedLayout: 2
+  pinkQueue:
+  - customerName: 1
+    potion: 1
+  - customerName: 3
+    potion: 4
+  - customerName: 1
+    potion: 1
+  - customerName: 4
+    potion: 2
+  - customerName: 0
+    potion: 3
+  greenQueue:
+  - customerName: 1
+    potion: 2
+  - customerName: 0
+    potion: 3
+  - customerName: 2
+    potion: 1
+  - customerName: 4
+    potion: 2
+  - customerName: 1
+    potion: 4
+  ingredientLanes:
+  - groups:
+    - ingredientType: 11
+      quantity: 3
+    - ingredientType: 9
+      quantity: 3
+    - ingredientType: 4
+      quantity: 4
+    - ingredientType: 8
+      quantity: 4
+    - ingredientType: 3
+      quantity: 3
+    - ingredientType: 2
+      quantity: 3
+    - ingredientType: 10
+      quantity: 4
+    - ingredientType: 4
+      quantity: 4
+    - ingredientType: 11
+      quantity: 2
+  - groups:
+    - ingredientType: 13
+      quantity: 2
+    - ingredientType: 8
+      quantity: 3
+    - ingredientType: 9
+      quantity: 4
+    - ingredientType: 10
+      quantity: 4
+    - ingredientType: 12
+      quantity: 3
+    - ingredientType: 13
+      quantity: 3
+    - ingredientType: 2
+      quantity: 3
+    - ingredientType: 4
+      quantity: 3
+    - ingredientType: 3
+      quantity: 3
+    - ingredientType: 7
+      quantity: 2
+  - groups:
+    - ingredientType: 13
+      quantity: 3
+    - ingredientType: 6
+      quantity: 3
+    - ingredientType: 4
+      quantity: 3
+    - ingredientType: 11
+      quantity: 3
+    - ingredientType: 1
+      quantity: 5
+    - ingredientType: 9
+      quantity: 3
+    - ingredientType: 4
+      quantity: 4
+    - ingredientType: 8
+      quantity: 3
+    - ingredientType: 12
+      quantity: 3
+  - groups:
+    - ingredientType: 8
+      quantity: 3
+    - ingredientType: 6
+      quantity: 2
+    - ingredientType: 1
+      quantity: 3
+    - ingredientType: 13
+      quantity: 4
+    - ingredientType: 12
+      quantity: 3
+    - ingredientType: 7
+      quantity: 2
+    - ingredientType: 6
+      quantity: 3
+    - ingredientType: 1
+      quantity: 4
+    - ingredientType: 8
+      quantity: 5
+    - ingredientType: 10
+      quantity: 4
