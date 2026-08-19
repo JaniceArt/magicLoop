@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 public class SettingsManager : MonoBehaviour
 {
     [Header("UI References")]
-    [Tooltip("KÈo object ch?a to‡n b? b?ng Settings v‡o d‚y")]
+    [Tooltip("K√©o object ch?a to√†n b? b?ng Settings v√†o d√¢y")]
     public GameObject settingsPanel;
     
     [Header("Toggle Buttons (Image components)")]
@@ -14,9 +14,9 @@ public class SettingsManager : MonoBehaviour
     public Image vibrationToggleImage;
 
     [Header("Toggle Sprites")]
-    [Tooltip("KÈo ?nh n˙t B?T (M‡u xanh) v‡o d‚y")]
+    [Tooltip("K√©o ?nh n√∫t B?T (M√†u xanh) v√†o d√¢y")]
     public Sprite onSprite;
-    [Tooltip("KÈo ?nh n˙t T?T (M‡u n‚u) v‡o d‚y")]
+    [Tooltip("K√©o ?nh n√∫t T?T (M√†u n√¢u) v√†o d√¢y")]
     public Sprite offSprite;
 
 
@@ -48,6 +48,24 @@ public class SettingsManager : MonoBehaviour
 
 
 
+
+    [Header("Buttons to Hide in Home")]
+    public GameObject homeButtonObj;
+    public GameObject retryButtonObj;
+
+    public void OpenSettingsFromHome()
+    {
+        if (homeButtonObj != null) homeButtonObj.SetActive(false);
+        if (retryButtonObj != null) retryButtonObj.SetActive(false);
+        OpenSettings();
+    }
+
+    public void OpenSettingsFromGame()
+    {
+        if (homeButtonObj != null) homeButtonObj.SetActive(true);
+        if (retryButtonObj != null) retryButtonObj.SetActive(true);
+        OpenSettings();
+    }
 
     public void OpenSettings()
     {
@@ -138,3 +156,5 @@ public class SettingsManager : MonoBehaviour
         SceneManager.LoadScene("SampleScene"); 
     }
 }
+
+

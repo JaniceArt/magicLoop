@@ -40,9 +40,9 @@ public class LevelData : ScriptableObject
     public int levelNumber = 1;
     public LayoutType selectedLayout = LayoutType.TwoLanes;
     
-    [Header("Rewards & Penalties")]
-    public int winCoinReward = 200;
-    public int loseCoinPenalty = 120;
+    public enum Difficulty { Easy, Medium, Hard }
+    [Header("Difficulty")]
+    public Difficulty difficulty = Difficulty.Easy;
 
     public List<CustomerOrder> pinkQueue;
     public List<CustomerOrder> greenQueue;

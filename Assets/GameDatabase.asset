@@ -60,6 +60,7 @@ MonoBehaviour:
   goblinSprite: {fileID: 21300000, guid: 2e9d027e197d81a439c1d72244d2b5d9, type: 3}
   demonSprite: {fileID: 21300000, guid: decace5a137787d46bd5a826e085a5de, type: 3}
   dwarfSprite: {fileID: 21300000, guid: a459e759050519140a136609546f06f9, type: 3}
+  mysteryMaskSprite: {fileID: 21300000, guid: 86d5b31a9a54fe04f8eeb1cc456784d5, type: 3}
   numberSprites:
   - {fileID: 0}
   - {fileID: -5564432789311739264, guid: 88cea16189aad144fa1fae54f97c7639, type: 3}
