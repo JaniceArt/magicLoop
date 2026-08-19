@@ -14,6 +14,12 @@ public class Cauldron : MonoBehaviour
     public SpriteRenderer itemIconRenderer;
     public SpriteRenderer quantityIconRenderer;
     public GameObject bubbleBackground;
+    
+    [Header("Animation & VFX")]
+    public Animator cauldronAnimator;
+    public string shootTriggerName = "Shoot";
+    [Tooltip("Hieu ung ban (effect) khi vạc nau xong")]
+    public GameObject shootEffectPrefab;
 
     [HideInInspector] public bool isBusy = false;
 
@@ -120,6 +126,20 @@ public class Cauldron : MonoBehaviour
             isBusy = false;
             currentSteps = null;
             
+            // Chay animation Vạc
+            if (cauldronAnimator != null && !string.IsNullOrEmpty(shootTriggerName))
+            {
+                cauldronAnimator.SetTrigger(shootTriggerName);
+            }
+
+            // Spawn hieu ung effect
+            if (shootEffectPrefab != null)
+            {
+                Vector3 spawnPos = spawnPoint != null ? spawnPoint.position : transform.position;
+                GameObject fx = Instantiate(shootEffectPrefab, spawnPos, Quaternion.identity);
+                Destroy(fx, 3f); // Tu huy sau 3 giay
+            }
+
             if (GameEventHandler.Instance != null)
                 GameEventHandler.Instance.RecipeCompleted(this);
         }
@@ -136,5 +156,48 @@ public class Cauldron : MonoBehaviour
     {
         if (!isBusy || currentSteps == null || currentStepIndex >= currentSteps.Count) return false;
         return currentSteps[currentStepIndex].ingredientType == type;
+    }
+
+    public bool NeedsAnyIngredient()
+    {
+        return isBusy && currentSteps != null && currentStepIndex < currentSteps.Count;
+    }
+
+    public IngredientType GetCurrentNeededType()
+    {
+        if (NeedsAnyIngredient())
+        {
+            return currentSteps[currentStepIndex].ingredientType;
+        }
+        return default;
+    }
+
+    public void AbsorbFromMagnet(Ingredient ing)
+    {
+        if (ing == null || !NeedsAnyIngredient()) return;
+
+        if (ing.transform.parent != null)
+        {
+            SlotMovement slot = ing.transform.parent.GetComponent<SlotMovement>();
+            if (slot != null) slot.isEmpty = true;
+            ing.transform.SetParent(null);
+        }
+
+        Transform targetMouth = (mouthPoint != null) ? mouthPoint : transform;
+        // Tang toc do bay khi dung nam cham
+        ing.StartAbsorb(targetMouth, absorbSpeed * 2f); 
+        
+        remainingQuantity--;
+        
+        if (remainingQuantity <= 0)
+        {
+            currentStepIndex++;
+            if (currentStepIndex < currentSteps.Count)
+            {
+                remainingQuantity = currentSteps[currentStepIndex].requiredQuantity;
+            }
+        }
+
+        UpdatePopUp();
     }
 }

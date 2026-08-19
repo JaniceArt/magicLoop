@@ -17,6 +17,9 @@ public class Ingredient : MonoBehaviour
     public bool hasKey = false;
     public Transform keyVisual;
 
+    [HideInInspector] public MysteryGroup mysteryGroup = null;
+    [HideInInspector] public int groupId = 0;
+
     private Collider2D col;
     private static int lastClickFrame = -1;
 
@@ -48,6 +51,12 @@ public class Ingredient : MonoBehaviour
 
     public void HandleClick()
     {
+        if (mysteryGroup != null && !mysteryGroup.isRevealed)
+        {
+            Debug.Log("Không thể click vì nguyên liệu đang bị ẩn (Mystery)!");
+            return;
+        }
+
         if (LaneManager.Instance != null && LaneManager.Instance.IsLaneLocked(this.laneIndex))
         {
             return;

@@ -41,7 +41,17 @@ public class LevelManager : MonoBehaviour
         if (Instance == null) Instance = this;
     }
 
-    IEnumerator Start()
+    void Start()
+    {
+        // Don't auto-start. Wait for UIManager to call StartLevel()
+    }
+
+    public void StartLevel()
+    {
+        StartCoroutine(StartLevelRoutine());
+    }
+
+    IEnumerator StartLevelRoutine()
     {
         yield return new WaitForSeconds(0.1f);
         
@@ -59,6 +69,10 @@ public class LevelManager : MonoBehaviour
             LoadNextCustomer(pinkLane);
             LoadNextCustomer(greenLane);
 
+            if (LaneManager.Instance != null)
+            {
+                LaneManager.Instance.InitializeLanesNow();
+            }
 
             if (GameEventHandler.Instance != null)
             {

@@ -10,43 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7baac7f99c30f1045b099090aead6f4b, type: 3}
-  m_Name: Level0
+  m_Name: Level1
   m_EditorClassIdentifier: Assembly-CSharp::LevelData
   levelNumber: 1
   selectedLayout: 0
   winCoinReward: 200
   loseCoinPenalty: 120
   pinkQueue:
-  - customerName: 0
-    potion: 3
-  - customerName: 3
-    potion: 1
   - customerName: 2
     potion: 0
-  greenQueue:
-  - customerName: 1
+  - customerName: 0
     potion: 1
-  - customerName: 2
+  greenQueue:
+  - customerName: 3
     potion: 1
   ingredientLanes:
-  - isLocked: 1
-    requiredKeys: 3
-    groups:
-    - ingredientType: 9
-      quantity: 2
-      isMystery: 1
-      hasKey: 1
-      keyIndex: 2
-    - ingredientType: 6
-      quantity: 4
-      isMystery: 0
-      hasKey: 0
-      keyIndex: 0
-    - ingredientType: 3
-      quantity: 3
-      isMystery: 0
-      hasKey: 0
-      keyIndex: 0
   - isLocked: 0
     requiredKeys: 1
     groups:
@@ -54,9 +32,32 @@ MonoBehaviour:
       quantity: 6
       isMystery: 0
       hasKey: 1
-      keyIndex: 5
+      keyIndex: 0
+    - ingredientType: 0
+      quantity: 3
+      isMystery: 1
+      hasKey: 0
+      keyIndex: 0
+    - ingredientType: 1
+      quantity: 4
+      isMystery: 1
+      hasKey: 0
+      keyIndex: 0
+  - isLocked: 1
+    requiredKeys: 1
+    groups:
+    - ingredientType: 5
+      quantity: 5
+      isMystery: 1
+      hasKey: 0
+      keyIndex: 0
+    - ingredientType: 4
+      quantity: 6
+      isMystery: 0
+      hasKey: 0
+      keyIndex: 0
     - ingredientType: 1
       quantity: 4
       isMystery: 0
-      hasKey: 1
-      keyIndex: 1
+      hasKey: 0
+      keyIndex: 0

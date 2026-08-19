@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
+using System.Collections;
 
 public class UIManager : MonoBehaviour
 {
@@ -18,6 +19,12 @@ public class UIManager : MonoBehaviour
     
     // Panel đen như kiểu setting
     public GameObject overlayPanel; 
+
+    [Header("Flow UI")]
+    public GameObject homePanel;
+    public GameObject loadingPanel;
+    public GameObject gamePanel;
+    public UnityEngine.UI.Slider loadingProgressBar;
 
     private int currentCoins;
     private const string COIN_KEY = "PlayerCoins";
@@ -47,6 +54,44 @@ public class UIManager : MonoBehaviour
         if (winPopup != null) winPopup.SetActive(false);
         if (losePopup != null) losePopup.SetActive(false);
         if (overlayPanel != null) overlayPanel.SetActive(false);
+
+        if (homePanel != null) homePanel.SetActive(true);
+        if (loadingPanel != null) loadingPanel.SetActive(false);
+        if (gamePanel != null) gamePanel.SetActive(false);
+    }
+
+    public void PlayGame()
+    {
+        if (homePanel != null) homePanel.SetActive(false);
+        StartCoroutine(LoadingRoutine());
+    }
+
+    private IEnumerator LoadingRoutine()
+    {
+        if (loadingPanel != null) loadingPanel.SetActive(true);
+        if (gamePanel != null) gamePanel.SetActive(true);
+        if (loadingProgressBar != null) loadingProgressBar.value = 0f;
+
+        // Bắt đầu tạo Level ngay lập tức (chạy ngầm phía sau màn hình Loading)
+        if (LevelManager.Instance != null)
+        {
+            LevelManager.Instance.StartLevel();
+        }
+
+        float duration = 1.5f;
+        float timer = 0f;
+        while (timer < duration)
+        {
+            timer += Time.deltaTime;
+            if (loadingProgressBar != null)
+            {
+                loadingProgressBar.value = timer / duration;
+            }
+            yield return null;
+        }
+
+        // Tạo xong thì ẩn Loading đi để hiện ra GamePanel và Level đã tạo sẵn
+        if (loadingPanel != null) loadingPanel.SetActive(false);
     }
 
     public void UpdateCoinUI()

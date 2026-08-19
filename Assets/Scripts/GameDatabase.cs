@@ -38,6 +38,7 @@ public class GameDatabase : ScriptableObject
     public Sprite goblinSprite;
     public Sprite demonSprite;
     public Sprite dwarfSprite;
+    public Sprite mysteryMaskSprite;
 
     public Sprite[] numberSprites = new Sprite[10];
     public List<PotionRecipeData> allRecipes = new List<PotionRecipeData>();
