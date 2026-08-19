@@ -43,7 +43,12 @@ public class LevelManager : MonoBehaviour
 
     void Start()
     {
-        // Don't auto-start. Wait for UIManager to call StartLevel()
+        // Don't auto-start if UIManager is active and will handle the flow.
+        // But if UIManager is missing or disabled (e.g. testing), auto-start immediately!
+        if (UIManager.Instance == null)
+        {
+            StartLevel();
+        }
     }
 
     public void StartLevel()
@@ -230,12 +235,15 @@ public class LevelManager : MonoBehaviour
 
         if (pinkDone && greenDone)
         {
-            isGameOver = true;
-            if (UIManager.Instance != null && currentLevel != null)
-            {
-                UIManager.Instance.ShowWinPopup(currentLevel.winCoinReward);
-            }
-        }
+              isGameOver = true;
+              if (UIManager.Instance != null && currentLevel != null)
+              {
+                  int reward = 10;
+                  if (currentLevel.difficulty == LevelData.Difficulty.Medium) reward = 20;
+                  else if (currentLevel.difficulty == LevelData.Difficulty.Hard) reward = 30;
+                  UIManager.Instance.ShowWinPopup(reward);
+              }
+          }
     }
 
     public void CheckStuckCondition()
@@ -294,10 +302,10 @@ public class LevelManager : MonoBehaviour
 
     private IEnumerator LoseGameRoutine()
     {
-        yield return new WaitForSeconds(3f);
-        if (UIManager.Instance != null && currentLevel != null)
-        {
-            UIManager.Instance.ShowLosePopup(currentLevel.loseCoinPenalty);
-        }
-    }
+          yield return new WaitForSeconds(3f);
+          if (UIManager.Instance != null && currentLevel != null)
+          {
+              UIManager.Instance.ShowLosePopup();
+          }
+      }
 }
