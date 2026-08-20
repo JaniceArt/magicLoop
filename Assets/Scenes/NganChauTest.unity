@@ -5391,7 +5391,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1166457782
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5607,8 +5607,8 @@ MonoBehaviour:
     - {fileID: 867183044}
     - {fileID: 1864720612}
   laneSpacing: 1.5
-  itemSpacing: 0.8
-  groupSpacing: 1.5
+  itemSpacing: 0.5
+  groupSpacing: 0.7
   ingredientScale: 0.8
   ingredientPrefab: {fileID: 3882063333771640653, guid: ffb282188c89fae43ad0290c9f6c96bf, type: 3}
   maxSortingOrder: 40
@@ -5837,7 +5837,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LevelManager
   database: {fileID: 11400000, guid: 7f3d274845482c548a67d04b4d03fdaf, type: 2}
-  currentLevel: {fileID: 11400000, guid: c5f3b33c08370124ca9419fb30b17522, type: 2}
+  currentLevel: {fileID: 11400000, guid: 49e9496d46b20794c8071c663c07e609, type: 2}
   levelText: {fileID: 1695761492}
   potionPrefab: {fileID: 1089118837}
   magicEffectPrefab: {fileID: 2715471840370901047, guid: df9374346b76e444dbbb2b019de4da25, type: 3}

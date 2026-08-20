@@ -12,7 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7baac7f99c30f1045b099090aead6f4b, type: 3}
   m_Name: Level6
   m_EditorClassIdentifier: Assembly-CSharp::LevelData
+  levelNumber: 6
   selectedLayout: 1
+  difficulty: 0
   pinkQueue:
   - customerName: 3
     potion: 1
@@ -36,64 +38,157 @@ MonoBehaviour:
   - customerName: 0
     potion: 0
   ingredientLanes:
-  - groups:
+  - isLocked: 0
+    requiredKeys: 1
+    groups:
     - ingredientType: 1
       quantity: 4
+      isMystery: 0
+      hasKey: 0
+      keyIndex: 0
     - ingredientType: 9
       quantity: 3
+      isMystery: 0
+      hasKey: 0
+      keyIndex: 0
     - ingredientType: 4
       quantity: 5
+      isMystery: 0
+      hasKey: 0
+      keyIndex: 0
     - ingredientType: 6
       quantity: 3
+      isMystery: 0
+      hasKey: 0
+      keyIndex: 0
     - ingredientType: 4
       quantity: 6
+      isMystery: 0
+      hasKey: 0
+      keyIndex: 0
     - ingredientType: 13
       quantity: 4
+      isMystery: 0
+      hasKey: 0
+      keyIndex: 0
     - ingredientType: 9
       quantity: 4
+      isMystery: 0
+      hasKey: 0
+      keyIndex: 0
     - ingredientType: 1
       quantity: 4
+      isMystery: 0
+      hasKey: 0
+      keyIndex: 0
     - ingredientType: 11
       quantity: 4
+      isMystery: 0
+      hasKey: 0
+      keyIndex: 0
     - ingredientType: 13
       quantity: 4
-  - groups:
+      isMystery: 0
+      hasKey: 0
+      keyIndex: 0
+  - isLocked: 0
+    requiredKeys: 1
+    groups:
     - ingredientType: 7
       quantity: 2
+      isMystery: 0
+      hasKey: 0
+      keyIndex: 0
     - ingredientType: 9
       quantity: 3
+      isMystery: 0
+      hasKey: 0
+      keyIndex: 0
     - ingredientType: 5
       quantity: 4
+      isMystery: 0
+      hasKey: 0
+      keyIndex: 0
     - ingredientType: 11
       quantity: 4
+      isMystery: 0
+      hasKey: 0
+      keyIndex: 0
     - ingredientType: 4
       quantity: 4
+      isMystery: 0
+      hasKey: 0
+      keyIndex: 0
     - ingredientType: 13
       quantity: 5
+      isMystery: 0
+      hasKey: 0
+      keyIndex: 0
     - ingredientType: 1
       quantity: 4
+      isMystery: 0
+      hasKey: 0
+      keyIndex: 0
     - ingredientType: 11
       quantity: 4
+      isMystery: 0
+      hasKey: 0
+      keyIndex: 0
     - ingredientType: 0
       quantity: 3
-  - groups:
+      isMystery: 0
+      hasKey: 0
+      keyIndex: 0
+  - isLocked: 0
+    requiredKeys: 1
+    groups:
     - ingredientType: 4
       quantity: 3
+      isMystery: 0
+      hasKey: 0
+      keyIndex: 0
     - ingredientType: 6
       quantity: 5
+      isMystery: 0
+      hasKey: 0
+      keyIndex: 0
     - ingredientType: 5
       quantity: 3
+      isMystery: 0
+      hasKey: 0
+      keyIndex: 0
     - ingredientType: 3
       quantity: 2
+      isMystery: 0
+      hasKey: 0
+      keyIndex: 0
     - ingredientType: 0
       quantity: 3
+      isMystery: 0
+      hasKey: 0
+      keyIndex: 0
     - ingredientType: 13
       quantity: 5
+      isMystery: 0
+      hasKey: 0
+      keyIndex: 0
     - ingredientType: 3
       quantity: 4
+      isMystery: 0
+      hasKey: 0
+      keyIndex: 0
     - ingredientType: 7
       quantity: 2
+      isMystery: 0
+      hasKey: 0
+      keyIndex: 0
     - ingredientType: 5
       quantity: 3
+      isMystery: 0
+      hasKey: 0
+      keyIndex: 0
     - ingredientType: 7
       quantity: 2
+      isMystery: 0
+      hasKey: 0
+      keyIndex: 0

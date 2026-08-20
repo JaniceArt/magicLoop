@@ -12,10 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7baac7f99c30f1045b099090aead6f4b, type: 3}
   m_Name: Level23
   m_EditorClassIdentifier: Assembly-CSharp::LevelData
-  levelNumber: 21
+  levelNumber: 23
   selectedLayout: 1
-  winCoinReward: 200
-  loseCoinPenalty: 120
+  difficulty: 0
   pinkQueue:
   - customerName: 3
     potion: 4
@@ -49,7 +48,7 @@ MonoBehaviour:
       keyIndex: 0
     - ingredientType: 7
       quantity: 2
-      isMystery: 0
+      isMystery: 1
       hasKey: 0
       keyIndex: 0
     - ingredientType: 12
@@ -59,12 +58,12 @@ MonoBehaviour:
       keyIndex: 0
     - ingredientType: 1
       quantity: 3
-      isMystery: 0
+      isMystery: 1
       hasKey: 0
       keyIndex: 0
     - ingredientType: 11
       quantity: 4
-      isMystery: 0
+      isMystery: 1
       hasKey: 0
       keyIndex: 0
     - ingredientType: 5
@@ -79,7 +78,7 @@ MonoBehaviour:
       keyIndex: 0
     - ingredientType: 5
       quantity: 3
-      isMystery: 0
+      isMystery: 1
       hasKey: 0
       keyIndex: 0
     - ingredientType: 7
@@ -89,12 +88,12 @@ MonoBehaviour:
       keyIndex: 0
     - ingredientType: 4
       quantity: 4
-      isMystery: 0
+      isMystery: 1
       hasKey: 0
       keyIndex: 0
     - ingredientType: 0
       quantity: 3
-      isMystery: 0
+      isMystery: 1
       hasKey: 0
       keyIndex: 0
   - isLocked: 0
@@ -107,7 +106,7 @@ MonoBehaviour:
       keyIndex: 0
     - ingredientType: 8
       quantity: 4
-      isMystery: 0
+      isMystery: 1
       hasKey: 0
       keyIndex: 0
     - ingredientType: 1
@@ -117,7 +116,7 @@ MonoBehaviour:
       keyIndex: 0
     - ingredientType: 8
       quantity: 4
-      isMystery: 0
+      isMystery: 1
       hasKey: 0
       keyIndex: 0
     - ingredientType: 4
@@ -137,7 +136,7 @@ MonoBehaviour:
       keyIndex: 0
     - ingredientType: 13
       quantity: 3
-      isMystery: 0
+      isMystery: 1
       hasKey: 0
       keyIndex: 0
     - ingredientType: 0
@@ -147,7 +146,7 @@ MonoBehaviour:
       keyIndex: 0
     - ingredientType: 1
       quantity: 2
-      isMystery: 0
+      isMystery: 1
       hasKey: 0
       keyIndex: 0
     - ingredientType: 11
@@ -170,7 +169,7 @@ MonoBehaviour:
       keyIndex: 0
     - ingredientType: 11
       quantity: 4
-      isMystery: 0
+      isMystery: 1
       hasKey: 0
       keyIndex: 0
     - ingredientType: 9
@@ -180,7 +179,7 @@ MonoBehaviour:
       keyIndex: 0
     - ingredientType: 2
       quantity: 4
-      isMystery: 0
+      isMystery: 1
       hasKey: 0
       keyIndex: 0
     - ingredientType: 8
@@ -190,7 +189,7 @@ MonoBehaviour:
       keyIndex: 0
     - ingredientType: 10
       quantity: 3
-      isMystery: 0
+      isMystery: 1
       hasKey: 0
       keyIndex: 0
     - ingredientType: 13
@@ -200,7 +199,7 @@ MonoBehaviour:
       keyIndex: 0
     - ingredientType: 5
       quantity: 4
-      isMystery: 0
+      isMystery: 1
       hasKey: 0
       keyIndex: 0
     - ingredientType: 7
@@ -215,7 +214,7 @@ MonoBehaviour:
       keyIndex: 0
     - ingredientType: 6
       quantity: 4
-      isMystery: 0
+      isMystery: 1
       hasKey: 0
       keyIndex: 0
     - ingredientType: 3

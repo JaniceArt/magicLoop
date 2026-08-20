@@ -12,10 +12,174 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7baac7f99c30f1045b099090aead6f4b, type: 3}
   m_Name: Level21
   m_EditorClassIdentifier: Assembly-CSharp::LevelData
-  levelNumber: 23
-  selectedLayout: 0
-  winCoinReward: 200
-  loseCoinPenalty: 120
-  pinkQueue: []
-  greenQueue: []
-  ingredientLanes: []
+  levelNumber: 21
+  selectedLayout: 1
+  difficulty: 0
+  pinkQueue:
+  - customerName: 3
+    potion: 3
+  - customerName: 2
+    potion: 2
+  - customerName: 1
+    potion: 4
+  - customerName: 4
+    potion: 2
+  greenQueue:
+  - customerName: 3
+    potion: 2
+  - customerName: 0
+    potion: 4
+  - customerName: 2
+    potion: 3
+  - customerName: 1
+    potion: 3
+  ingredientLanes:
+  - isLocked: 0
+    requiredKeys: 0
+    groups:
+    - ingredientType: 13
+      quantity: 4
+      isMystery: 0
+      hasKey: 0
+      keyIndex: 0
+    - ingredientType: 8
+      quantity: 5
+      isMystery: 1
+      hasKey: 0
+      keyIndex: 0
+    - ingredientType: 10
+      quantity: 4
+      isMystery: 0
+      hasKey: 0
+      keyIndex: 0
+    - ingredientType: 6
+      quantity: 4
+      isMystery: 0
+      hasKey: 1
+      keyIndex: 2
+    - ingredientType: 12
+      quantity: 3
+      isMystery: 1
+      hasKey: 0
+      keyIndex: 0
+    - ingredientType: 7
+      quantity: 2
+      isMystery: 0
+      hasKey: 0
+      keyIndex: 0
+    - ingredientType: 11
+      quantity: 4
+      isMystery: 0
+      hasKey: 0
+      keyIndex: 0
+    - ingredientType: 3
+      quantity: 3
+      isMystery: 0
+      hasKey: 1
+      keyIndex: 1
+    - ingredientType: 13
+      quantity: 4
+      isMystery: 0
+      hasKey: 0
+      keyIndex: 0
+    - ingredientType: 10
+      quantity: 4
+      isMystery: 0
+      hasKey: 0
+      keyIndex: 0
+  - isLocked: 1
+    requiredKeys: 5
+    groups:
+    - ingredientType: 2
+      quantity: 3
+      isMystery: 0
+      hasKey: 0
+      keyIndex: 0
+    - ingredientType: 8
+      quantity: 4
+      isMystery: 0
+      hasKey: 0
+      keyIndex: 0
+    - ingredientType: 10
+      quantity: 4
+      isMystery: 0
+      hasKey: 0
+      keyIndex: 0
+    - ingredientType: 3
+      quantity: 3
+      isMystery: 0
+      hasKey: 0
+      keyIndex: 0
+    - ingredientType: 12
+      quantity: 3
+      isMystery: 0
+      hasKey: 0
+      keyIndex: 0
+    - ingredientType: 9
+      quantity: 5
+      isMystery: 0
+      hasKey: 0
+      keyIndex: 0
+    - ingredientType: 8
+      quantity: 4
+      isMystery: 0
+      hasKey: 0
+      keyIndex: 0
+    - ingredientType: 12
+      quantity: 3
+      isMystery: 0
+      hasKey: 0
+      keyIndex: 0
+  - isLocked: 0
+    requiredKeys: 0
+    groups:
+    - ingredientType: 8
+      quantity: 5
+      isMystery: 0
+      hasKey: 0
+      keyIndex: 0
+    - ingredientType: 9
+      quantity: 5
+      isMystery: 0
+      hasKey: 0
+      keyIndex: 0
+    - ingredientType: 3
+      quantity: 3
+      isMystery: 0
+      hasKey: 0
+      keyIndex: 0
+    - ingredientType: 6
+      quantity: 4
+      isMystery: 1
+      hasKey: 0
+      keyIndex: 0
+    - ingredientType: 11
+      quantity: 4
+      isMystery: 0
+      hasKey: 1
+      keyIndex: 0
+    - ingredientType: 2
+      quantity: 3
+      isMystery: 1
+      hasKey: 1
+      keyIndex: 0
+    - ingredientType: 9
+      quantity: 5
+      isMystery: 0
+      hasKey: 1
+      keyIndex: 0
+    - ingredientType: 13
+      quantity: 4
+      isMystery: 1
+      hasKey: 0
+      keyIndex: 0
+    - ingredientType: 6
+      quantity: 4
+      isMystery: 0
+      hasKey: 0
+      keyIndex: 0
+    - ingredientType: 7
+      quantity: 2
+      isMystery: 0
+      hasKey: 0
+      keyIndex: 0
