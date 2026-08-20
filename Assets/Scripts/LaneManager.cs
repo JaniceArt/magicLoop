@@ -454,24 +454,30 @@ public class LaneManager : MonoBehaviour
         }
     }
 
-    public Ingredient FindIngredientForMagnet(IngredientType type)
+    public List<Ingredient> FindIngredientsForMagnet(IngredientType type, int maxCount)
     {
+        List<Ingredient> found = new List<Ingredient>();
         for (int i = 0; i < activeLanes.Count; i++)
         {
             if (IsLaneLocked(i)) continue;
 
             List<Ingredient> laneIngredients = activeLanes[i];
-            for (int j = 0; j < laneIngredients.Count; j++)
+            // Duyệt ngược để an toàn khi xóa phần tử
+            for (int j = laneIngredients.Count - 1; j >= 0; j--)
             {
                 Ingredient ing = laneIngredients[j];
                 if (ing.ingredientType == type && !ing.hasKey && ing.mysteryGroup == null)
                 {
                     PopIngredient(ing);
-                    return ing;
+                    found.Add(ing);
+                    if (found.Count >= maxCount)
+                    {
+                        return found;
+                    }
                 }
             }
         }
-        return null;
+        return found;
     }
 
     public void ShuffleLanes()

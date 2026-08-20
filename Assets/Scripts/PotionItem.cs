@@ -95,7 +95,7 @@ public class PotionItem : MonoBehaviour
 
     void Update()
     {
-        if (isDelivered || targetLane == null || targetLane.customerRenderer == null) return;
+        if (isDelivered || targetLane == null || targetLane.customerAnimator == null) return;
 
         if (currentSlot == null)
         {
@@ -142,7 +142,7 @@ public class PotionItem : MonoBehaviour
     IEnumerator FlyToCustomer()
     {
         Vector3 startPos = transform.position;
-        Vector3 targetPos = targetLane.customerRenderer.transform.position;
+        Vector3 targetPos = targetLane.customerAnimator.transform.position;
         Vector3 startScale = transform.localScale;
         
         float distance = Vector3.Distance(startPos, targetPos);
@@ -166,6 +166,11 @@ public class PotionItem : MonoBehaviour
         
         if (GameEventHandler.Instance != null)
             GameEventHandler.Instance.PotionDelivered(targetLane);
+
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.PlayPotionDeliver();
+        }
         
         Destroy(gameObject);
     }

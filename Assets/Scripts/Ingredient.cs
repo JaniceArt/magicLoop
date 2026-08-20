@@ -94,6 +94,11 @@ public class Ingredient : MonoBehaviour
 
         if (targetSlot != null)
         {
+            if (AudioManager.Instance != null)
+            {
+                AudioManager.Instance.PlayIngredientJump();
+            }
+
             targetSlot.isEmpty = false;
 
             if (hasKey && keyVisual != null && LaneManager.Instance != null && LaneManager.Instance.activeLock != null)

@@ -14,8 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LevelData
   levelNumber: 1
   selectedLayout: 0
-  winCoinReward: 200
-  loseCoinPenalty: 120
+  difficulty: 0
   pinkQueue:
   - customerName: 2
     potion: 0
@@ -48,7 +47,7 @@ MonoBehaviour:
     groups:
     - ingredientType: 5
       quantity: 5
-      isMystery: 1
+      isMystery: 0
       hasKey: 0
       keyIndex: 0
     - ingredientType: 4

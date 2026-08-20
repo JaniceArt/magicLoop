@@ -119,30 +119,56 @@ public class Cauldron : MonoBehaviour
         }
         else
         {
-            if (itemIconRenderer != null) itemIconRenderer.sprite = null;
-            if (quantityIconRenderer != null) quantityIconRenderer.sprite = null;
-            if (bubbleBackground != null) bubbleBackground.SetActive(false);
-            
-            isBusy = false;
-            currentSteps = null;
-            
-            // Chay animation Vạc
-            if (cauldronAnimator != null && !string.IsNullOrEmpty(shootTriggerName))
-            {
-                cauldronAnimator.SetTrigger(shootTriggerName);
-            }
-
-            // Spawn hieu ung effect
-            if (shootEffectPrefab != null)
-            {
-                Vector3 spawnPos = spawnPoint != null ? spawnPoint.position : transform.position;
-                GameObject fx = Instantiate(shootEffectPrefab, spawnPos, Quaternion.identity);
-                Destroy(fx, 3f); // Tu huy sau 3 giay
-            }
-
-            if (GameEventHandler.Instance != null)
-                GameEventHandler.Instance.RecipeCompleted(this);
+            StartCoroutine(BoilAndShootRoutine());
         }
+    }
+
+    private System.Collections.IEnumerator BoilAndShootRoutine()
+    {
+        if (itemIconRenderer != null) itemIconRenderer.sprite = null;
+        if (quantityIconRenderer != null) quantityIconRenderer.sprite = null;
+        if (bubbleBackground != null) bubbleBackground.SetActive(false);
+        
+        currentSteps = null;
+
+        // Bắt đầu âm thanh sôi
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.PlayCauldronBoil();
+        }
+
+        // Chờ 1.5s cho vạc "sôi" xong
+        yield return new WaitForSeconds(1.5f);
+        
+        // Tắt âm thanh sôi
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.StopCauldronBoil();
+        }
+
+        // Chạy animation bắn thuốc
+        if (cauldronAnimator != null && !string.IsNullOrEmpty(shootTriggerName))
+        {
+            cauldronAnimator.SetTrigger(shootTriggerName);
+        }
+
+        // Spawn hiệu ứng nổ
+        if (shootEffectPrefab != null)
+        {
+            Vector3 spawnPos = spawnPoint != null ? spawnPoint.position : transform.position;
+            GameObject fx = Instantiate(shootEffectPrefab, spawnPos, Quaternion.identity);
+            Destroy(fx, 3f); // Tự hủy sau 3 giây
+        }
+
+        // Chờ một chút để khớp với animation nổ bắn ra thuốc
+        yield return new WaitForSeconds(0.2f);
+
+        // Bắn thuốc ra (thông báo cho LevelManager)
+        if (GameEventHandler.Instance != null)
+            GameEventHandler.Instance.RecipeCompleted(this);
+            
+        // Đặt lại trạng thái rảnh rỗi cho vạc
+        isBusy = false;
     }
 
     void OnDrawGizmosSelected()
@@ -161,6 +187,11 @@ public class Cauldron : MonoBehaviour
     public bool NeedsAnyIngredient()
     {
         return isBusy && currentSteps != null && currentStepIndex < currentSteps.Count;
+    }
+
+    public int GetRemainingQuantity()
+    {
+        return remainingQuantity;
     }
 
     public IngredientType GetCurrentNeededType()

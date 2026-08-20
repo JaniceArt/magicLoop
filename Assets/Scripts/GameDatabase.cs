@@ -32,27 +32,27 @@ public class GameDatabase : ScriptableObject
 
     public List<IngredientData> ingredientDatabase = new List<IngredientData>();
     
-    [Header("Customer Sprites")]
-    public Sprite witchSprite;
-    public Sprite elfSprite;
-    public Sprite goblinSprite;
-    public Sprite demonSprite;
-    public Sprite dwarfSprite;
+    [Header("Customer Animators")]
+    public RuntimeAnimatorController witchAnimator;
+    public RuntimeAnimatorController elfAnimator;
+    public RuntimeAnimatorController goblinAnimator;
+    public RuntimeAnimatorController demonAnimator;
+    public RuntimeAnimatorController dwarfAnimator;
     public Sprite mysteryMaskSprite;
 
     public Sprite[] numberSprites = new Sprite[10];
     public List<PotionRecipeData> allRecipes = new List<PotionRecipeData>();
 
-    public Sprite GetCustomerSprite(CustomerType type)
+    public RuntimeAnimatorController GetCustomerAnimator(CustomerType type)
     {
         switch (type)
         {
-            case CustomerType.PhuThuy: return witchSprite;
-            case CustomerType.Elf: return elfSprite;
-            case CustomerType.Goblin: return goblinSprite;
-            case CustomerType.Demon: return demonSprite;
-            case CustomerType.Dwarf: return dwarfSprite;
-            default: return witchSprite;
+            case CustomerType.PhuThuy: return witchAnimator;
+            case CustomerType.Elf: return elfAnimator;
+            case CustomerType.Goblin: return goblinAnimator;
+            case CustomerType.Demon: return demonAnimator;
+            case CustomerType.Dwarf: return dwarfAnimator;
+            default: return witchAnimator;
         }
     }
 

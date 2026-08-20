@@ -20,9 +20,19 @@ public class SettingsManager : MonoBehaviour
     public Sprite offSprite;
 
 
+    public static SettingsManager Instance { get; private set; }
+
     private bool isMusicOn = true;
     private bool isSoundOn = true;
     private bool isVibOn = true;
+
+    void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+    }
 
     void Start()
     {
@@ -113,6 +123,14 @@ public class SettingsManager : MonoBehaviour
 
         if (isVibOn)
         {
+            TriggerVibration();
+        }
+    }
+
+    public void TriggerVibration()
+    {
+        if (isVibOn)
+        {
             #if UNITY_ANDROID || UNITY_IOS
             Handheld.Vibrate();
             #endif
@@ -131,10 +149,11 @@ public class SettingsManager : MonoBehaviour
 
     private void ApplySettings()
     {
-
-        AudioListener.volume = isSoundOn ? 1f : 0f;
-        
-
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.ToggleMusic(isMusicOn);
+            AudioManager.Instance.ToggleSound(isSoundOn);
+        }
     }
 
 

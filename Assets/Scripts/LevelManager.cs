@@ -11,7 +11,7 @@ public class LevelManager : MonoBehaviour
     public class LaneState
     {
         public Cauldron cauldron;
-        public SpriteRenderer customerRenderer;
+        public Animator customerAnimator;
         public GameObject customerBubbleObject;
         public SpriteRenderer customerPotionRenderer;
         public Transform deliveryPoint;
@@ -106,12 +106,13 @@ public class LevelManager : MonoBehaviour
             var customer = lane.queue[lane.currentCustomerIndex];
             Debug.Log($"Loading customer: {customer.customerName} who ordered {customer.potion}");
             
-            if (lane.customerRenderer != null && database != null)
+            if (lane.customerAnimator != null && database != null)
             {
-                Sprite s = database.GetCustomerSprite(customer.customerName);
-                lane.customerRenderer.sprite = s;
-                Debug.Log($"Assigned sprite for {customer.customerName}: {(s != null ? s.name : "NULL!")}");
+                RuntimeAnimatorController anim = database.GetCustomerAnimator(customer.customerName);
+                lane.customerAnimator.runtimeAnimatorController = anim;
             }
+            
+            if (lane.customerAnimator != null) lane.customerAnimator.gameObject.SetActive(true);
             
             if (lane.customerBubbleObject != null) lane.customerBubbleObject.SetActive(true);
             
@@ -126,7 +127,7 @@ public class LevelManager : MonoBehaviour
         else
         {
             lane.isProcessing = false;
-            if (lane.customerRenderer != null) lane.customerRenderer.sprite = null;
+            if (lane.customerAnimator != null) lane.customerAnimator.gameObject.SetActive(false);
             if (lane.customerBubbleObject != null) lane.customerBubbleObject.SetActive(false);
             if (lane.customerPotionRenderer != null) lane.customerPotionRenderer.sprite = null;
         }
@@ -198,14 +199,14 @@ public class LevelManager : MonoBehaviour
     IEnumerator CustomerTransitionRoutine(LaneState lane)
     {
 
-        if (lane.customerRenderer != null) lane.customerRenderer.enabled = false;
+        if (lane.customerAnimator != null) lane.customerAnimator.gameObject.SetActive(false);
         if (lane.customerBubbleObject != null) lane.customerBubbleObject.SetActive(false);
 
 
-        if (magicEffectPrefab != null && lane.customerRenderer != null)
+        if (magicEffectPrefab != null && lane.customerAnimator != null)
         {
 
-            Vector3 fxPos = lane.customerRenderer.transform.position;
+            Vector3 fxPos = lane.customerAnimator.transform.position;
             fxPos.z = -5f;
             
             GameObject vfx = Instantiate(magicEffectPrefab, fxPos, Quaternion.identity);
@@ -221,7 +222,7 @@ public class LevelManager : MonoBehaviour
         lane.currentCustomerIndex++;
 
 
-        if (lane.customerRenderer != null) lane.customerRenderer.enabled = true;
+        if (lane.customerAnimator != null) lane.customerAnimator.gameObject.SetActive(true);
         LoadNextCustomer(lane);
         CheckWinCondition();
     }

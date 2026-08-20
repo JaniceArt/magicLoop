@@ -32,11 +32,15 @@ public class BoosterManager : MonoBehaviour
                 if (c.isBusy && c.NeedsAnyIngredient())
                 {
                     IngredientType neededType = c.GetCurrentNeededType();
+                    int maxNeeded = c.GetRemainingQuantity();
                     
-                    Ingredient ingToSuck = LaneManager.Instance.FindIngredientForMagnet(neededType);
-                    if (ingToSuck != null)
+                    List<Ingredient> ingredientsToSuck = LaneManager.Instance.FindIngredientsForMagnet(neededType, maxNeeded);
+                    if (ingredientsToSuck != null && ingredientsToSuck.Count > 0)
                     {
-                        c.AbsorbFromMagnet(ingToSuck);
+                        foreach (Ingredient ing in ingredientsToSuck)
+                        {
+                            c.AbsorbFromMagnet(ing);
+                        }
                         foundAndSucked = true;
                         // Khong break nua de no xet tiep cac noi khac
                     }
