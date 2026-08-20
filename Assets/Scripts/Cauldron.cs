@@ -82,6 +82,7 @@ public class Cauldron : MonoBehaviour
                     }
 
                     Transform targetMouth = (mouthPoint != null) ? mouthPoint : transform;
+                    if (AudioManager.Instance != null) AudioManager.Instance.PlayIngredientAbsorb();
                     ing.StartAbsorb(targetMouth, absorbSpeed);
                     
                     remainingQuantity--;
@@ -146,10 +147,17 @@ public class Cauldron : MonoBehaviour
             AudioManager.Instance.StopCauldronBoil();
         }
 
-        // Chạy animation bắn thuốc
+        // Chạy animation bắn thuốc (Animator cũ)
         if (cauldronAnimator != null && !string.IsNullOrEmpty(shootTriggerName))
         {
             cauldronAnimator.SetTrigger(shootTriggerName);
+        }
+
+        // Chạy animation nhún nhảy (Script CauldronWobble mới)
+        CauldronWobble wobble = GetComponent<CauldronWobble>();
+        if (wobble != null)
+        {
+            wobble.PlayWobble();
         }
 
         // Spawn hiệu ứng nổ
@@ -215,6 +223,7 @@ public class Cauldron : MonoBehaviour
         }
 
         Transform targetMouth = (mouthPoint != null) ? mouthPoint : transform;
+        if (AudioManager.Instance != null) AudioManager.Instance.PlayIngredientAbsorb();
         // Tang toc do bay khi dung nam cham
         ing.StartAbsorb(targetMouth, absorbSpeed * 2f); 
         

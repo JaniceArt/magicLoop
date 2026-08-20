@@ -142,6 +142,24 @@ public class UIManager : MonoBehaviour
         UpdateCoinUI();
     }
 
+    public int GetCurrentCoins()
+    {
+        return currentCoins;
+    }
+
+    public bool SpendCoins(int amount)
+    {
+        if (currentCoins >= amount)
+        {
+            currentCoins -= amount;
+            PlayerPrefs.SetInt(COIN_KEY, currentCoins);
+            PlayerPrefs.Save();
+            UpdateCoinUI();
+            return true;
+        }
+        return false;
+    }
+
     public void ShowWinPopup(int reward)
     {
         if (overlayPanel != null) overlayPanel.SetActive(true);

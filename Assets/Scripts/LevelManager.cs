@@ -149,6 +149,8 @@ public class LevelManager : MonoBehaviour
     void SpawnPotion(LaneState lane)
     {
         Debug.Log("SpawnPotion called for lane " + lane.cauldron.gameObject.name);
+        if (AudioManager.Instance != null) AudioManager.Instance.PlayPotionSpawn();
+        
         var customer = lane.queue[lane.currentCustomerIndex];
         Sprite potionSprite = database.GetPotionSprite(customer.potion);
 
@@ -207,15 +209,17 @@ public class LevelManager : MonoBehaviour
         {
 
             Vector3 fxPos = lane.customerAnimator.transform.position;
+            fxPos.y += 0.5f; // Nâng hiệu ứng lên cao một chút (thay đổi số này nếu muốn cao/thấp hơn)
             fxPos.z = -5f;
             
             GameObject vfx = Instantiate(magicEffectPrefab, fxPos, Quaternion.identity);
+            vfx.transform.localScale = new Vector3(1.5f, 1.5f, 1.5f); // Phóng to hiệu ứng lên 1.5 lần
             Debug.Log("💥 Đã spawn hiệu ứng ma thuật tại: " + fxPos);
             Destroy(vfx, 3f);
         }
 
 
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.2f);
 
 
         lane.isWaitingForDelivery = false;

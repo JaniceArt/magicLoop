@@ -55,11 +55,11 @@ MonoBehaviour:
   - ingredientType: 13
     ingredientSprite: {fileID: -4192499792280372823, guid: c4a7d1013f67bfa478bc53fe664bed80, type: 3}
     scaleMultiplier: 1
-  witchSprite: {fileID: 21300000, guid: 95526465d6faad943a9c62659d0f8287, type: 3}
-  elfSprite: {fileID: 21300000, guid: effe02bda8600d740b319c7c6676df98, type: 3}
-  goblinSprite: {fileID: 21300000, guid: 2e9d027e197d81a439c1d72244d2b5d9, type: 3}
-  demonSprite: {fileID: 21300000, guid: decace5a137787d46bd5a826e085a5de, type: 3}
-  dwarfSprite: {fileID: 21300000, guid: a459e759050519140a136609546f06f9, type: 3}
+  witchAnimator: {fileID: 9100000, guid: a6a5c58b715232b41a25f80e959d61de, type: 2}
+  elfAnimator: {fileID: 9100000, guid: 6e82e5cd9f2549c4a81807c94709b074, type: 2}
+  goblinAnimator: {fileID: 9100000, guid: 41dcf751046ff0445ba4de50be9645b3, type: 2}
+  demonAnimator: {fileID: 9100000, guid: dc96982780c2d054db30beabd4c7c061, type: 2}
+  dwarfAnimator: {fileID: 9100000, guid: 089534ef3befc6846a8d84b43cf82d99, type: 2}
   mysteryMaskSprite: {fileID: 21300000, guid: 86d5b31a9a54fe04f8eeb1cc456784d5, type: 3}
   numberSprites:
   - {fileID: 0}

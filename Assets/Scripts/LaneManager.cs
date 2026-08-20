@@ -86,7 +86,14 @@ public class MysteryGroup
         isRevealed = true;
         if (maskObject != null)
         {
-            GameObject.Destroy(maskObject);
+            if (LaneManager.Instance != null)
+            {
+                LaneManager.Instance.AnimateAndDestroyMask(maskObject);
+            }
+            else
+            {
+                GameObject.Destroy(maskObject);
+            }
         }
     }
 }
@@ -118,6 +125,10 @@ public class LaneManager : MonoBehaviour
     public float maskPadding = 1.2f;
     public float maskWidth = 0.74f;
     public float maskOffsetY = 0.5f;
+
+    [Header("Behavior")]
+    public int maxVisibleItemsPerLane = 11; // Chỉ hút những nglieu nằm trong tầm nhìn (vd: 11 vị trí đầu)
+    public float flipDuration = 0.3f;
 
     private List<List<Ingredient>> activeLanes = new List<List<Ingredient>>();
     private LevelManager levelManager;
@@ -419,6 +430,21 @@ public class LaneManager : MonoBehaviour
         return null;
     }
 
+    public Ingredient GetHintIngredient(IngredientType neededType)
+    {
+        for (int i = 0; i < activeLanes.Count; i++)
+        {
+            if (IsLaneLocked(i)) continue;
+            
+            Ingredient top = GetTopIngredient(i);
+            if (top != null && top.ingredientType == neededType && (top.mysteryGroup == null || top.mysteryGroup.isRevealed))
+            {
+                return top;
+            }
+        }
+        return null;
+    }
+
     public void PopIngredient(Ingredient ing)
     {
         if (ing.laneIndex >= 0 && ing.laneIndex < activeLanes.Count)
@@ -449,9 +475,36 @@ public class LaneManager : MonoBehaviour
             
             if (remaining <= 0)
             {
+                if (AudioManager.Instance != null) AudioManager.Instance.PlayKeyUnlock();
                 activeLock.Unlock();
             }
+            else
+            {
+                if (AudioManager.Instance != null) AudioManager.Instance.PlayKeyHit();
+            }
         }
+    }
+
+    public List<Ingredient> GetCurrentlyValidIngredientsForMagnet()
+    {
+        List<Ingredient> valid = new List<Ingredient>();
+        for (int i = 0; i < activeLanes.Count; i++)
+        {
+            if (IsLaneLocked(i)) continue;
+
+            List<Ingredient> laneIngredients = activeLanes[i];
+            for (int j = 0; j < laneIngredients.Count; j++)
+            {
+                if (j >= maxVisibleItemsPerLane) break;
+
+                Ingredient ing = laneIngredients[j];
+                if (!ing.hasKey && (ing.mysteryGroup == null || ing.mysteryGroup.isRevealed))
+                {
+                    valid.Add(ing);
+                }
+            }
+        }
+        return valid;
     }
 
     public List<Ingredient> FindIngredientsForMagnet(IngredientType type, int maxCount)
@@ -466,7 +519,11 @@ public class LaneManager : MonoBehaviour
             for (int j = laneIngredients.Count - 1; j >= 0; j--)
             {
                 Ingredient ing = laneIngredients[j];
-                if (ing.ingredientType == type && !ing.hasKey && ing.mysteryGroup == null)
+                
+                // Kiem tra xem co nam trong vung nhin thay khong
+                if (j >= maxVisibleItemsPerLane) continue;
+
+                if (ing.ingredientType == type && !ing.hasKey && (ing.mysteryGroup == null || ing.mysteryGroup.isRevealed))
                 {
                     PopIngredient(ing);
                     found.Add(ing);
@@ -478,6 +535,31 @@ public class LaneManager : MonoBehaviour
             }
         }
         return found;
+    }
+
+    public void AnimateAndDestroyMask(GameObject maskObj)
+    {
+        if (maskObj != null)
+        {
+            StartCoroutine(MaskDisappearRoutine(maskObj));
+        }
+    }
+
+    private IEnumerator MaskDisappearRoutine(GameObject maskObj)
+    {
+        float duration = 0.2f;
+        float elapsed = 0f;
+        Vector3 startScale = maskObj.transform.localScale;
+        
+        while (elapsed < duration)
+        {
+            if (maskObj == null) break;
+            elapsed += Time.deltaTime;
+            maskObj.transform.localScale = Vector3.Lerp(startScale, Vector3.zero, elapsed / duration);
+            yield return null;
+        }
+        
+        if (maskObj != null) Destroy(maskObj);
     }
 
     public void ShuffleLanes()
