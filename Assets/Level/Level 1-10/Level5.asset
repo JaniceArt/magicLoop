@@ -1,0 +1,99 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7baac7f99c30f1045b099090aead6f4b, type: 3}
+  m_Name: Level5
+  m_EditorClassIdentifier: Assembly-CSharp::LevelData
+  selectedLayout: 1
+  pinkQueue:
+  - customerName: 0
+    potion: 0
+  - customerName: 3
+    potion: 1
+  - customerName: 4
+    potion: 1
+  - customerName: 2
+    potion: 3
+  - customerName: 1
+    potion: 1
+  greenQueue:
+  - customerName: 0
+    potion: 1
+  - customerName: 4
+    potion: 3
+  - customerName: 0
+    potion: 0
+  - customerName: 2
+    potion: 3
+  - customerName: 3
+    potion: 0
+  ingredientLanes:
+  - groups:
+    - ingredientType: 9
+      quantity: 5
+    - ingredientType: 4
+      quantity: 2
+    - ingredientType: 9
+      quantity: 3
+    - ingredientType: 3
+      quantity: 3
+    - ingredientType: 0
+      quantity: 2
+    - ingredientType: 5
+      quantity: 2
+    - ingredientType: 1
+      quantity: 4
+    - ingredientType: 5
+      quantity: 3
+    - ingredientType: 4
+      quantity: 2
+    - ingredientType: 1
+      quantity: 3
+    - ingredientType: 4
+      quantity: 4
+  - groups:
+    - ingredientType: 6
+      quantity: 3
+    - ingredientType: 4
+      quantity: 3
+    - ingredientType: 1
+      quantity: 4
+    - ingredientType: 3
+      quantity: 3
+    - ingredientType: 5
+      quantity: 3
+    - ingredientType: 0
+      quantity: 3
+    - ingredientType: 5
+      quantity: 2
+    - ingredientType: 3
+      quantity: 3
+  - groups:
+    - ingredientType: 4
+      quantity: 5
+    - ingredientType: 6
+      quantity: 5
+    - ingredientType: 9
+      quantity: 3
+    - ingredientType: 4
+      quantity: 4
+    - ingredientType: 1
+      quantity: 5
+    - ingredientType: 6
+      quantity: 4
+    - ingredientType: 0
+      quantity: 4
+    - ingredientType: 5
+      quantity: 5
+    - ingredientType: 9
+      quantity: 4
+    - ingredientType: 4
+      quantity: 4
