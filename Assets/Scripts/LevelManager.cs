@@ -11,6 +11,7 @@ public class LevelManager : MonoBehaviour
     public class LaneState
     {
         public Cauldron cauldron;
+        public SpriteRenderer customerRenderer;
         public Animator customerAnimator;
         public GameObject customerBubbleObject;
         public SpriteRenderer customerPotionRenderer;
@@ -23,7 +24,10 @@ public class LevelManager : MonoBehaviour
     }
 
     [Header("Level Settings")]
+    [Tooltip("Kéo thả toàn bộ 30 LevelData vào đây. Game sẽ tự động load dựa theo tiến trình!")]
+    public LevelData[] allLevels;
     public GameDatabase database;
+    [Tooltip("Level hiện tại (tự động gán khi Play, không cần kéo tay nữa)")]
     public LevelData currentLevel;
     public TextMeshProUGUI levelText;
 
@@ -38,8 +42,39 @@ public class LevelManager : MonoBehaviour
 
     void Awake()
     {
-        if (Instance == null) Instance = this;
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+
+        // Tự động load level dựa trên tiến trình đã lưu
+        int savedLevelIndex = PlayerPrefs.GetInt("CurrentLevelIndex", 0);
+        if (allLevels != null && allLevels.Length > 0)
+        {
+            // Đảm bảo index không vượt quá số level hiện có
+            if (savedLevelIndex >= allLevels.Length)
+            {
+                savedLevelIndex = allLevels.Length - 1; // Load level cuối nếu đã chơi hết
+            }
+            currentLevel = allLevels[savedLevelIndex];
+        }
+
+        GameObject bgObj = GameObject.Find("BG (1)");
+        if (bgObj != null && bgObj.GetComponent<BackgroundScaler>() == null)
+        {
+            bgObj.AddComponent<BackgroundScaler>();
+        }
+        GameObject bgAlt = GameObject.Find("BG");
+        if (bgAlt != null && bgAlt.GetComponent<BackgroundScaler>() == null)
+        {
+            bgAlt.AddComponent<BackgroundScaler>();
+        }
     }
+
 
     void Start()
     {
@@ -112,7 +147,21 @@ public class LevelManager : MonoBehaviour
                 lane.customerAnimator.runtimeAnimatorController = anim;
             }
             
-            if (lane.customerAnimator != null) lane.customerAnimator.gameObject.SetActive(true);
+            if (lane.customerAnimator != null && database != null)
+            {
+                RuntimeAnimatorController anim = database.GetCustomerAnimator(customer.customerName);
+                Debug.Log($"GetCustomerAnimator for {customer.customerName}: {(anim != null ? anim.name : "NULL")}");
+                if (anim != null)
+                {
+                    lane.customerAnimator.enabled = false;
+                    lane.customerAnimator.gameObject.SetActive(true);
+                    lane.customerAnimator.runtimeAnimatorController = anim;
+                    lane.customerAnimator.enabled = true;
+                    lane.customerAnimator.Rebind();
+                    lane.customerAnimator.Update(0f);
+                    Debug.Log($"Animator controller set to: {lane.customerAnimator.runtimeAnimatorController?.name}");
+                }
+            }
             
             if (lane.customerBubbleObject != null) lane.customerBubbleObject.SetActive(true);
             
@@ -127,6 +176,7 @@ public class LevelManager : MonoBehaviour
         else
         {
             lane.isProcessing = false;
+            if (lane.customerRenderer != null) lane.customerRenderer.sprite = null;
             if (lane.customerAnimator != null) lane.customerAnimator.gameObject.SetActive(false);
             if (lane.customerBubbleObject != null) lane.customerBubbleObject.SetActive(false);
             if (lane.customerPotionRenderer != null) lane.customerPotionRenderer.sprite = null;
@@ -142,6 +192,19 @@ public class LevelManager : MonoBehaviour
         if (lane == null || !lane.isProcessing || lane.isWaitingForDelivery) return;
 
         Debug.Log("Vạc đã nấu xong! LevelManager nhận event và chuẩn bị spawn thuốc cho lane " + cauldron.gameObject.name);
+        
+        // Chay animation nhay tung len cua vac
+        CauldronWobble wobble = cauldron.GetComponent<CauldronWobble>();
+        if (wobble != null)
+        {
+            wobble.PlayWobble();
+        }
+
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.PlayPotionShoot();
+        }
+
         lane.isWaitingForDelivery = true;
         SpawnPotion(lane);
     }
@@ -201,33 +264,56 @@ public class LevelManager : MonoBehaviour
     IEnumerator CustomerTransitionRoutine(LaneState lane)
     {
 
+        if (lane.customerRenderer != null) lane.customerRenderer.enabled = false;
         if (lane.customerAnimator != null) lane.customerAnimator.gameObject.SetActive(false);
         if (lane.customerBubbleObject != null) lane.customerBubbleObject.SetActive(false);
+        if (lane.customerPotionRenderer != null) lane.customerPotionRenderer.sprite = null;
 
 
         if (magicEffectPrefab != null && lane.customerAnimator != null)
         {
 
-            Vector3 fxPos = lane.customerAnimator.transform.position;
-            fxPos.y += 0.5f; // Nâng hiệu ứng lên cao một chút (thay đổi số này nếu muốn cao/thấp hơn)
+            Vector3 fxPos = lane.customerRenderer.transform.position;
+            fxPos.y += 0.5f; // Nang cao len mot chut
             fxPos.z = -5f;
             
             GameObject vfx = Instantiate(magicEffectPrefab, fxPos, Quaternion.identity);
-            vfx.transform.localScale = new Vector3(1.5f, 1.5f, 1.5f); // Phóng to hiệu ứng lên 1.5 lần
+            vfx.transform.localScale = new Vector3(1.5f, 1.5f, 1.5f); // To ra 1.5 lan
+            
+            // Ep buoc tat ca cac sub-particle system phai tat Loop (phong hieu ung con nam trong folder con)
+            ParticleSystem[] pss = vfx.GetComponentsInChildren<ParticleSystem>();
+            foreach(var ps in pss)
+            {
+                var main = ps.main;
+                main.loop = false;
+            }
+
             Debug.Log("💥 Đã spawn hiệu ứng ma thuật tại: " + fxPos);
-            Destroy(vfx, 3f);
+            // Giam thoi gian ton tai xuong 1.5s de no bien mat nhanh hon (neu hieu ung ngan)
+            Destroy(vfx, 1.5f);
         }
 
 
+        // Doi 0.2s truoc khi khach tiep theo hien ra
         yield return new WaitForSeconds(0.2f);
 
 
         lane.isWaitingForDelivery = false;
         lane.currentCustomerIndex++;
 
+        // Chi hien thi lai nhan vat neu con khach hang tiep theo trong hang doi
+        if (lane.queue != null && lane.currentCustomerIndex < lane.queue.Count)
+        {
+            if (lane.customerRenderer != null) lane.customerRenderer.enabled = true;
+            LoadNextCustomer(lane);
+        }
+        else
+        {
+            // Neu het khach thi dam bao tat luon hinh anh
+            if (lane.customerRenderer != null) lane.customerRenderer.enabled = false;
+            if (lane.customerAnimator != null) lane.customerAnimator.gameObject.SetActive(false);
+        }
 
-        if (lane.customerAnimator != null) lane.customerAnimator.gameObject.SetActive(true);
-        LoadNextCustomer(lane);
         CheckWinCondition();
     }
 
@@ -240,15 +326,21 @@ public class LevelManager : MonoBehaviour
 
         if (pinkDone && greenDone)
         {
-              isGameOver = true;
-              if (UIManager.Instance != null && currentLevel != null)
-              {
-                  int reward = 10;
-                  if (currentLevel.difficulty == LevelData.Difficulty.Medium) reward = 20;
-                  else if (currentLevel.difficulty == LevelData.Difficulty.Hard) reward = 30;
-                  UIManager.Instance.ShowWinPopup(reward);
-              }
-          }
+            isGameOver = true;
+            if (UIManager.Instance != null && currentLevel != null)
+            {
+                int reward = 10;
+                if (currentLevel.difficulty == LevelData.Difficulty.Medium) reward = 20;
+                else if (currentLevel.difficulty == LevelData.Difficulty.Hard) reward = 30;
+                
+                // Lưu tiến trình level tiếp theo
+                int currentIndex = PlayerPrefs.GetInt("CurrentLevelIndex", 0);
+                PlayerPrefs.SetInt("CurrentLevelIndex", currentIndex + 1);
+                PlayerPrefs.Save();
+
+                UIManager.Instance.ShowWinPopup(reward);
+            }
+        }
     }
 
     public void CheckStuckCondition()
@@ -314,3 +406,4 @@ public class LevelManager : MonoBehaviour
           }
       }
 }
+

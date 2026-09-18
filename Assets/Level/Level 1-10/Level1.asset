@@ -12,9 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7baac7f99c30f1045b099090aead6f4b, type: 3}
   m_Name: Level1
   m_EditorClassIdentifier: Assembly-CSharp::LevelData
-  levelNumber: 1
   selectedLayout: 0
-  difficulty: 0
   pinkQueue:
   - customerName: 2
     potion: 0
@@ -24,39 +22,17 @@ MonoBehaviour:
   - customerName: 3
     potion: 1
   ingredientLanes:
-  - isLocked: 0
-    requiredKeys: 1
-    groups:
+  - groups:
     - ingredientType: 4
       quantity: 6
-      isMystery: 0
-      hasKey: 1
-      keyIndex: 0
     - ingredientType: 0
       quantity: 3
-      isMystery: 1
-      hasKey: 0
-      keyIndex: 0
     - ingredientType: 1
       quantity: 4
-      isMystery: 1
-      hasKey: 0
-      keyIndex: 0
-  - isLocked: 1
-    requiredKeys: 1
-    groups:
+  - groups:
     - ingredientType: 5
       quantity: 5
-      isMystery: 0
-      hasKey: 0
-      keyIndex: 0
     - ingredientType: 4
       quantity: 6
-      isMystery: 0
-      hasKey: 0
-      keyIndex: 0
     - ingredientType: 1
       quantity: 4
-      isMystery: 0
-      hasKey: 0
-      keyIndex: 0

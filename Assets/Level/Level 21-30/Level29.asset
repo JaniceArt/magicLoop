@@ -1,0 +1,243 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7baac7f99c30f1045b099090aead6f4b, type: 3}
+  m_Name: Level29
+  m_EditorClassIdentifier: Assembly-CSharp::LevelData
+  levelNumber: 29
+  selectedLayout: 1
+  difficulty: 2
+  pinkQueue:
+  - customerName: 2
+    potion: 2
+  - customerName: 4
+    potion: 2
+  - customerName: 0
+    potion: 3
+  - customerName: 3
+    potion: 2
+  - customerName: 1
+    potion: 3
+  - customerName: 4
+    potion: 4
+  greenQueue:
+  - customerName: 2
+    potion: 3
+  - customerName: 4
+    potion: 2
+  - customerName: 3
+    potion: 4
+  - customerName: 0
+    potion: 2
+  - customerName: 1
+    potion: 3
+  - customerName: 0
+    potion: 4
+  ingredientLanes:
+  - isLocked: 0
+    requiredKeys: 0
+    groups:
+    - ingredientType: 8
+      quantity: 6
+      isMystery: 0
+      hasKey: 1
+      keyIndex: 0
+    - ingredientType: 9
+      quantity: 5
+      isMystery: 0
+      hasKey: 0
+      keyIndex: 0
+    - ingredientType: 13
+      quantity: 4
+      isMystery: 1
+      hasKey: 0
+      keyIndex: 0
+    - ingredientType: 10
+      quantity: 4
+      isMystery: 1
+      hasKey: 0
+      keyIndex: 0
+    - ingredientType: 3
+      quantity: 4
+      isMystery: 0
+      hasKey: 0
+      keyIndex: 0
+    - ingredientType: 11
+      quantity: 4
+      isMystery: 1
+      hasKey: 1
+      keyIndex: 2
+    - ingredientType: 12
+      quantity: 3
+      isMystery: 1
+      hasKey: 0
+      keyIndex: 0
+    - ingredientType: 6
+      quantity: 4
+      isMystery: 0
+      hasKey: 0
+      keyIndex: 0
+    - ingredientType: 7
+      quantity: 2
+      isMystery: 0
+      hasKey: 0
+      keyIndex: 0
+    - ingredientType: 2
+      quantity: 3
+      isMystery: 0
+      hasKey: 0
+      keyIndex: 0
+    - ingredientType: 12
+      quantity: 4
+      isMystery: 0
+      hasKey: 0
+      keyIndex: 0
+    - ingredientType: 8
+      quantity: 6
+      isMystery: 0
+      hasKey: 0
+      keyIndex: 0
+    - ingredientType: 9
+      quantity: 5
+      isMystery: 1
+      hasKey: 0
+      keyIndex: 0
+    - ingredientType: 10
+      quantity: 4
+      isMystery: 1
+      hasKey: 0
+      keyIndex: 0
+    - ingredientType: 2
+      quantity: 3
+      isMystery: 0
+      hasKey: 0
+      keyIndex: 0
+    - ingredientType: 3
+      quantity: 4
+      isMystery: 1
+      hasKey: 0
+      keyIndex: 0
+    - ingredientType: 6
+      quantity: 4
+      isMystery: 0
+      hasKey: 0
+      keyIndex: 0
+  - isLocked: 0
+    requiredKeys: 0
+    groups:
+    - ingredientType: 6
+      quantity: 4
+      isMystery: 0
+      hasKey: 1
+      keyIndex: 0
+    - ingredientType: 8
+      quantity: 6
+      isMystery: 0
+      hasKey: 0
+      keyIndex: 0
+    - ingredientType: 11
+      quantity: 4
+      isMystery: 0
+      hasKey: 0
+      keyIndex: 0
+    - ingredientType: 9
+      quantity: 5
+      isMystery: 0
+      hasKey: 0
+      keyIndex: 0
+    - ingredientType: 10
+      quantity: 4
+      isMystery: 1
+      hasKey: 1
+      keyIndex: 0
+    - ingredientType: 12
+      quantity: 4
+      isMystery: 0
+      hasKey: 1
+      keyIndex: 0
+    - ingredientType: 13
+      quantity: 4
+      isMystery: 1
+      hasKey: 0
+      keyIndex: 0
+    - ingredientType: 2
+      quantity: 4
+      isMystery: 1
+      hasKey: 0
+      keyIndex: 0
+    - ingredientType: 7
+      quantity: 2
+      isMystery: 0
+      hasKey: 0
+      keyIndex: 0
+    - ingredientType: 3
+      quantity: 4
+      isMystery: 1
+      hasKey: 0
+      keyIndex: 0
+    - ingredientType: 8
+      quantity: 6
+      isMystery: 0
+      hasKey: 1
+      keyIndex: 0
+    - ingredientType: 9
+      quantity: 5
+      isMystery: 0
+      hasKey: 0
+      keyIndex: 0
+    - ingredientType: 10
+      quantity: 4
+      isMystery: 1
+      hasKey: 0
+      keyIndex: 0
+    - ingredientType: 13
+      quantity: 4
+      isMystery: 1
+      hasKey: 0
+      keyIndex: 0
+    - ingredientType: 12
+      quantity: 4
+      isMystery: 1
+      hasKey: 1
+      keyIndex: 0
+    - ingredientType: 11
+      quantity: 4
+      isMystery: 0
+      hasKey: 0
+      keyIndex: 0
+    - ingredientType: 6
+      quantity: 4
+      isMystery: 0
+      hasKey: 0
+      keyIndex: 0
+  - isLocked: 1
+    requiredKeys: 7
+    groups:
+    - ingredientType: 8
+      quantity: 6
+      isMystery: 0
+      hasKey: 0
+      keyIndex: 0
+    - ingredientType: 10
+      quantity: 4
+      isMystery: 0
+      hasKey: 0
+      keyIndex: 0
+    - ingredientType: 13
+      quantity: 6
+      isMystery: 0
+      hasKey: 0
+      keyIndex: 0
+    - ingredientType: 7
+      quantity: 2
+      isMystery: 0
+      hasKey: 0
+      keyIndex: 0

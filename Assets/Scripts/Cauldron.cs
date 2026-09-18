@@ -1,5 +1,6 @@
 using UnityEngine;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 
 public class Cauldron : MonoBehaviour
@@ -28,6 +29,11 @@ public class Cauldron : MonoBehaviour
     
     private int currentStepIndex = 0;
     private int remainingQuantity = 0;
+
+    public int GetRemainingQuantity()
+    {
+        return remainingQuantity;
+    }
 
     void Start()
     {
@@ -85,6 +91,9 @@ public class Cauldron : MonoBehaviour
                     if (AudioManager.Instance != null) AudioManager.Instance.PlayIngredientAbsorb();
                     ing.StartAbsorb(targetMouth, absorbSpeed);
                     
+                    if (AudioManager.Instance != null)
+                        AudioManager.Instance.PlayIngredientToCauldron();
+                    
                     remainingQuantity--;
                     
                     if (remainingQuantity <= 0)
@@ -120,63 +129,51 @@ public class Cauldron : MonoBehaviour
         }
         else
         {
-            StartCoroutine(BoilAndShootRoutine());
+            if (itemIconRenderer != null) itemIconRenderer.sprite = null;
+            if (quantityIconRenderer != null) quantityIconRenderer.sprite = null;
+            if (bubbleBackground != null) bubbleBackground.SetActive(false);
+            
+            isBusy = false;
+            currentSteps = null;
+            
+            StartCoroutine(WaitForAbsorbThenShoot());
         }
     }
 
-    private System.Collections.IEnumerator BoilAndShootRoutine()
+    IEnumerator WaitForAbsorbThenShoot()
     {
-        if (itemIconRenderer != null) itemIconRenderer.sprite = null;
-        if (quantityIconRenderer != null) quantityIconRenderer.sprite = null;
-        if (bubbleBackground != null) bubbleBackground.SetActive(false);
-        
-        currentSteps = null;
-
-        // Bắt đầu âm thanh sôi
-        if (AudioManager.Instance != null)
+        while (true)
         {
-            AudioManager.Instance.PlayCauldronBoil();
+            Ingredient[] allIng = FindObjectsByType<Ingredient>(FindObjectsSortMode.None);
+            bool anyAbsorbing = false;
+            foreach (Ingredient ing in allIng)
+            {
+                if (ing.isBeingAbsorbed)
+                {
+                    anyAbsorbing = true;
+                    break;
+                }
+            }
+            if (!anyAbsorbing) break;
+            yield return null;
         }
 
-        // Chờ 1.5s cho vạc "sôi" xong
-        yield return new WaitForSeconds(1.5f);
-        
-        // Tắt âm thanh sôi
-        if (AudioManager.Instance != null)
-        {
-            AudioManager.Instance.StopCauldronBoil();
-        }
-
-        // Chạy animation bắn thuốc (Animator cũ)
-        if (cauldronAnimator != null && !string.IsNullOrEmpty(shootTriggerName))
+        if (cauldronAnimator != null)
         {
             cauldronAnimator.SetTrigger(shootTriggerName);
+            if (AudioManager.Instance != null)
+                AudioManager.Instance.PlayCauldronBoil();
         }
 
-        // Chạy animation nhún nhảy (Script CauldronWobble mới)
-        CauldronWobble wobble = GetComponent<CauldronWobble>();
-        if (wobble != null)
-        {
-            wobble.PlayWobble();
-        }
-
-        // Spawn hiệu ứng nổ
         if (shootEffectPrefab != null)
         {
             Vector3 spawnPos = spawnPoint != null ? spawnPoint.position : transform.position;
             GameObject fx = Instantiate(shootEffectPrefab, spawnPos, Quaternion.identity);
-            Destroy(fx, 3f); // Tự hủy sau 3 giây
+            Destroy(fx, 3f);
         }
 
-        // Chờ một chút để khớp với animation nổ bắn ra thuốc
-        yield return new WaitForSeconds(0.2f);
-
-        // Bắn thuốc ra (thông báo cho LevelManager)
         if (GameEventHandler.Instance != null)
             GameEventHandler.Instance.RecipeCompleted(this);
-            
-        // Đặt lại trạng thái rảnh rỗi cho vạc
-        isBusy = false;
     }
 
     void OnDrawGizmosSelected()
@@ -227,6 +224,9 @@ public class Cauldron : MonoBehaviour
         // Tang toc do bay khi dung nam cham
         ing.StartAbsorb(targetMouth, absorbSpeed * 2f); 
         
+        if (AudioManager.Instance != null)
+            AudioManager.Instance.PlayIngredientToCauldron();
+        
         remainingQuantity--;
         
         if (remainingQuantity <= 0)
@@ -241,3 +241,4 @@ public class Cauldron : MonoBehaviour
         UpdatePopUp();
     }
 }
+

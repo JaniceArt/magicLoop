@@ -20,7 +20,9 @@ public class SettingsManager : MonoBehaviour
     public Sprite offSprite;
 
 
-    public static SettingsManager Instance { get; private set; }
+    [Header("Volume Sliders (Tùy chọn)")]
+    public Slider musicVolumeSlider;
+    public Slider sfxVolumeSlider;
 
     private bool isMusicOn = true;
     private bool isSoundOn = true;
@@ -52,6 +54,22 @@ public class SettingsManager : MonoBehaviour
         UpdateToggleUI(soundToggleImage, isSoundOn);
         UpdateToggleUI(vibrationToggleImage, isVibOn);
         
+        // Khởi tạo slider
+        float musicVol = PlayerPrefs.GetFloat("Setting_MusicVol", 1f);
+        float sfxVol = PlayerPrefs.GetFloat("Setting_SFXVol", 1f);
+        
+        if (musicVolumeSlider != null)
+        {
+            musicVolumeSlider.value = musicVol;
+            musicVolumeSlider.onValueChanged.AddListener(OnMusicVolumeChanged);
+        }
+        
+        if (sfxVolumeSlider != null)
+        {
+            sfxVolumeSlider.value = sfxVol;
+            sfxVolumeSlider.onValueChanged.AddListener(OnSFXVolumeChanged);
+        }
+
         ApplySettings();
     }
 
@@ -65,6 +83,7 @@ public class SettingsManager : MonoBehaviour
 
     public void OpenSettingsFromHome()
     {
+        Debug.Log("==== ĐÃ BẤM NÚT SETTING Ở HOME! Đang gọi mở bảng... ====");
         if (homeButtonObj != null) homeButtonObj.SetActive(false);
         if (retryButtonObj != null) retryButtonObj.SetActive(false);
         OpenSettings();
@@ -72,6 +91,7 @@ public class SettingsManager : MonoBehaviour
 
     public void OpenSettingsFromGame()
     {
+        Debug.Log("==== ĐÃ BẤM NÚT SETTING Ở GAME! Đang gọi mở bảng... ====");
         if (homeButtonObj != null) homeButtonObj.SetActive(true);
         if (retryButtonObj != null) retryButtonObj.SetActive(true);
         OpenSettings();
@@ -83,6 +103,11 @@ public class SettingsManager : MonoBehaviour
         {
             settingsPanel.SetActive(true);
             Time.timeScale = 0f;
+            Debug.Log("==== CODE XỬ LÝ: Đã bật SettingPanel (SetActive = true) và Dừng thời gian (TimeScale = 0)! Nếu sếp không nhìn thấy bảng thì 1000% là do nó bị một Panel khác đè lên mặt (Lỗi Hierarchy)! ====");
+        }
+        else
+        {
+            Debug.Log("==== LỖI: Ô Settings Panel trong Inspector đang bị trống (None), không biết mở cái gì! ====");
         }
     }
 
@@ -149,10 +174,32 @@ public class SettingsManager : MonoBehaviour
 
     private void ApplySettings()
     {
+        // Áp dụng toggle
         if (AudioManager.Instance != null)
         {
-            AudioManager.Instance.ToggleMusic(isMusicOn);
-            AudioManager.Instance.ToggleSound(isSoundOn);
+            if (AudioManager.Instance.bgmSource != null)
+                AudioManager.Instance.bgmSource.mute = !isMusicOn;
+            
+            if (AudioManager.Instance.sfxSource != null)
+                AudioManager.Instance.sfxSource.mute = !isSoundOn;
+        }
+    }
+
+    public void OnMusicVolumeChanged(float value)
+    {
+        PlayerPrefs.SetFloat("Setting_MusicVol", value);
+        if (AudioManager.Instance != null && AudioManager.Instance.bgmSource != null)
+        {
+            AudioManager.Instance.bgmSource.volume = value;
+        }
+    }
+
+    public void OnSFXVolumeChanged(float value)
+    {
+        PlayerPrefs.SetFloat("Setting_SFXVol", value);
+        if (AudioManager.Instance != null && AudioManager.Instance.sfxSource != null)
+        {
+            AudioManager.Instance.sfxSource.volume = value;
         }
     }
 

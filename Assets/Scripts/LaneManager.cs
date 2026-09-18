@@ -131,6 +131,15 @@ public class LaneManager : MonoBehaviour
     public float flipDuration = 0.3f;
 
     private List<List<Ingredient>> activeLanes = new List<List<Ingredient>>();
+    public int ActiveLanesCount => activeLanes.Count;
+
+    public List<Ingredient> GetLaneIngredients(int laneIndex)
+    {
+        if (laneIndex >= 0 && laneIndex < activeLanes.Count)
+            return activeLanes[laneIndex];
+        return null;
+    }
+
     private LevelManager levelManager;
     private Dictionary<Ingredient, Coroutine> moveCoroutines = new Dictionary<Ingredient, Coroutine>();
 
@@ -468,6 +477,13 @@ public class LaneManager : MonoBehaviour
     public void OnKeyCollected()
     {
         currentKeysCollected++;
+        bool isFinalKey = currentKeysCollected >= totalKeysRequired;
+        
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.PlayKeyUnlock(isFinalKey);
+        }
+
         if (activeLock != null)
         {
             int remaining = totalKeysRequired - currentKeysCollected;
@@ -485,81 +501,46 @@ public class LaneManager : MonoBehaviour
         }
     }
 
-    public List<Ingredient> GetCurrentlyValidIngredientsForMagnet()
+    public List<Ingredient> FindIngredientsForMagnet(IngredientType type, int maxCount)
     {
-        List<Ingredient> valid = new List<Ingredient>();
+        List<Ingredient> found = new List<Ingredient>();
+        
         for (int i = 0; i < activeLanes.Count; i++)
         {
             if (IsLaneLocked(i)) continue;
 
             List<Ingredient> laneIngredients = activeLanes[i];
-            for (int j = 0; j < laneIngredients.Count; j++)
+            
+            // Chi quet 11 nguyen lieu o phia truoc cua bang chuyen (nhung mon dang hien tren man hinh)
+            int scanLimit = Mathf.Min(11, laneIngredients.Count);
+            
+            for (int j = 0; j < scanLimit; j++)
             {
                 if (j >= maxVisibleItemsPerLane) break;
 
                 Ingredient ing = laneIngredients[j];
                 if (!ing.hasKey && (ing.mysteryGroup == null || ing.mysteryGroup.isRevealed))
                 {
-                    valid.Add(ing);
-                }
-            }
-        }
-        return valid;
-    }
-
-    public List<Ingredient> FindIngredientsForMagnet(IngredientType type, int maxCount)
-    {
-        List<Ingredient> found = new List<Ingredient>();
-        for (int i = 0; i < activeLanes.Count; i++)
-        {
-            if (IsLaneLocked(i)) continue;
-
-            List<Ingredient> laneIngredients = activeLanes[i];
-            // Duyệt ngược để an toàn khi xóa phần tử
-            for (int j = laneIngredients.Count - 1; j >= 0; j--)
-            {
-                Ingredient ing = laneIngredients[j];
-                
-                // Kiem tra xem co nam trong vung nhin thay khong
-                if (j >= maxVisibleItemsPerLane) continue;
-
-                if (ing.ingredientType == type && !ing.hasKey && (ing.mysteryGroup == null || ing.mysteryGroup.isRevealed))
-                {
-                    PopIngredient(ing);
                     found.Add(ing);
-                    if (found.Count >= maxCount)
-                    {
-                        return found;
-                    }
+                    if (found.Count >= maxCount) break;
                 }
             }
+            if (found.Count >= maxCount) break;
         }
+
+        foreach (Ingredient ing in found)
+        {
+            PopIngredient(ing);
+        }
+
         return found;
     }
 
-    public void AnimateAndDestroyMask(GameObject maskObj)
+    // Phuong thuc cu giu lai de back-compatibility neu can
+    public Ingredient FindIngredientForMagnet(IngredientType type)
     {
-        if (maskObj != null)
-        {
-            StartCoroutine(MaskDisappearRoutine(maskObj));
-        }
-    }
-
-    private IEnumerator MaskDisappearRoutine(GameObject maskObj)
-    {
-        float duration = 0.2f;
-        float elapsed = 0f;
-        Vector3 startScale = maskObj.transform.localScale;
-        
-        while (elapsed < duration)
-        {
-            if (maskObj == null) break;
-            elapsed += Time.deltaTime;
-            maskObj.transform.localScale = Vector3.Lerp(startScale, Vector3.zero, elapsed / duration);
-            yield return null;
-        }
-        
-        if (maskObj != null) Destroy(maskObj);
+        List<Ingredient> results = FindIngredientsForMagnet(type, 1);
+        return results.Count > 0 ? results[0] : null;
     }
 
     public void ShuffleLanes()

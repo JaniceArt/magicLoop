@@ -12,7 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7baac7f99c30f1045b099090aead6f4b, type: 3}
   m_Name: Level3
   m_EditorClassIdentifier: Assembly-CSharp::LevelData
+  levelNumber: 3
   selectedLayout: 0
+  difficulty: 0
   pinkQueue:
   - customerName: 0
     potion: 0
@@ -28,37 +30,89 @@ MonoBehaviour:
   - customerName: 3
     potion: 1
   ingredientLanes:
-  - groups:
+  - isLocked: 0
+    requiredKeys: 1
+    groups:
     - ingredientType: 0
       quantity: 3
+      isMystery: 0
+      hasKey: 0
+      keyIndex: 0
     - ingredientType: 5
       quantity: 2
+      isMystery: 0
+      hasKey: 0
+      keyIndex: 0
     - ingredientType: 9
       quantity: 3
+      isMystery: 0
+      hasKey: 0
+      keyIndex: 0
     - ingredientType: 1
       quantity: 5
+      isMystery: 0
+      hasKey: 0
+      keyIndex: 0
     - ingredientType: 5
       quantity: 3
+      isMystery: 0
+      hasKey: 0
+      keyIndex: 0
     - ingredientType: 3
       quantity: 3
+      isMystery: 0
+      hasKey: 0
+      keyIndex: 0
     - ingredientType: 4
       quantity: 7
+      isMystery: 0
+      hasKey: 0
+      keyIndex: 0
     - ingredientType: 1
       quantity: 3
-  - groups:
+      isMystery: 0
+      hasKey: 0
+      keyIndex: 0
+  - isLocked: 0
+    requiredKeys: 1
+    groups:
     - ingredientType: 0
       quantity: 3
+      isMystery: 0
+      hasKey: 0
+      keyIndex: 0
     - ingredientType: 9
       quantity: 2
+      isMystery: 0
+      hasKey: 0
+      keyIndex: 0
     - ingredientType: 5
       quantity: 5
+      isMystery: 0
+      hasKey: 0
+      keyIndex: 0
     - ingredientType: 6
       quantity: 4
+      isMystery: 0
+      hasKey: 0
+      keyIndex: 0
     - ingredientType: 4
       quantity: 5
+      isMystery: 0
+      hasKey: 0
+      keyIndex: 0
     - ingredientType: 9
       quantity: 5
+      isMystery: 0
+      hasKey: 0
+      keyIndex: 0
     - ingredientType: 3
       quantity: 3
+      isMystery: 0
+      hasKey: 0
+      keyIndex: 0
     - ingredientType: 6
       quantity: 4
+      isMystery: 0
+      hasKey: 0
+      keyIndex: 0

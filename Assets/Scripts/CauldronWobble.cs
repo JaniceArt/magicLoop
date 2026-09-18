@@ -31,19 +31,6 @@ public class CauldronWobble : MonoBehaviour
     }
 
     // =========================
-    // TEST BẰNG SPACE
-    // =========================
-
-    private void Update()
-    {
-        if (Keyboard.current != null &&
-            Keyboard.current.spaceKey.wasPressedThisFrame)
-        {
-            PlayWobble();
-        }
-    }
-
-    // =========================
     // KÍCH HOẠT ANIMATION
     // =========================
 
