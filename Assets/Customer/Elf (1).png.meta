@@ -1,0 +1,665 @@
+fileFormatVersion: 2
+guid: 6aab8eb4f1fef05418db88804f0509bd
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 1777794296738022681
+    second: Elf (1)_0
+  - first:
+      213: -1539775094346641137
+    second: Elf (1)_1
+  - first:
+      213: 4005020749528154780
+    second: Elf (1)_2
+  - first:
+      213: -7736215792761888220
+    second: Elf (1)_3
+  - first:
+      213: -858870865867643051
+    second: Elf (1)_4
+  - first:
+      213: 6588975999543912259
+    second: Elf (1)_5
+  - first:
+      213: 1606365827811350875
+    second: Elf (1)_6
+  - first:
+      213: 7702053901010467635
+    second: Elf (1)_7
+  - first:
+      213: 2802941949414926700
+    second: Elf (1)_8
+  - first:
+      213: -7972926927468477770
+    second: Elf (1)_9
+  - first:
+      213: -7690846892480219889
+    second: Elf (1)_10
+  - first:
+      213: 4608396242435479287
+    second: Elf (1)_11
+  - first:
+      213: -6882944728937877883
+    second: Elf (1)_12
+  - first:
+      213: 1892858944886380415
+    second: Elf (1)_13
+  - first:
+      213: 8550298876207794070
+    second: Elf (1)_14
+  - first:
+      213: 7299746046288665246
+    second: Elf (1)_15
+  - first:
+      213: 128456638794407875
+    second: Elf (1)_16
+  - first:
+      213: -9080203908909329388
+    second: Elf (1)_17
+  - first:
+      213: 6003315665299712487
+    second: Elf (1)_18
+  - first:
+      213: -3061021811263915012
+    second: Elf (1)_19
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Elf (1)_0
+      rect:
+        serializedVersion: 2
+        x: 109
+        y: 1561
+        width: 297
+        height: 318
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 91509c46e7efba810800000000000000
+      internalID: 1777794296738022681
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Elf (1)_1
+      rect:
+        serializedVersion: 2
+        x: 622
+        y: 1561
+        width: 296
+        height: 318
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f019973b5be91aae0800000000000000
+      internalID: -1539775094346641137
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Elf (1)_2
+      rect:
+        serializedVersion: 2
+        x: 1133
+        y: 1561
+        width: 296
+        height: 319
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c92c1b5f621b49730800000000000000
+      internalID: 4005020749528154780
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Elf (1)_3
+      rect:
+        serializedVersion: 2
+        x: 1646
+        y: 1561
+        width: 296
+        height: 320
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 42229a689b073a490800000000000000
+      internalID: -7736215792761888220
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Elf (1)_4
+      rect:
+        serializedVersion: 2
+        x: 2157
+        y: 1561
+        width: 296
+        height: 320
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 557e60c7f7da414f0800000000000000
+      internalID: -858870865867643051
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Elf (1)_5
+      rect:
+        serializedVersion: 2
+        x: 109
+        y: 1048
+        width: 297
+        height: 323
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 347a36ef2ceb07b50800000000000000
+      internalID: 6588975999543912259
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Elf (1)_6
+      rect:
+        serializedVersion: 2
+        x: 622
+        y: 1048
+        width: 296
+        height: 324
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b599502a535fa4610800000000000000
+      internalID: 1606365827811350875
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Elf (1)_7
+      rect:
+        serializedVersion: 2
+        x: 1133
+        y: 1048
+        width: 296
+        height: 326
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 33bf3aa373133ea60800000000000000
+      internalID: 7702053901010467635
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Elf (1)_8
+      rect:
+        serializedVersion: 2
+        x: 1646
+        y: 1048
+        width: 296
+        height: 327
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c69eae43adc06e620800000000000000
+      internalID: 2802941949414926700
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Elf (1)_9
+      rect:
+        serializedVersion: 2
+        x: 2157
+        y: 1048
+        width: 296
+        height: 328
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6b2481ca3397a5190800000000000000
+      internalID: -7972926927468477770
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Elf (1)_10
+      rect:
+        serializedVersion: 2
+        x: 109
+        y: 537
+        width: 297
+        height: 328
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f05bcc7cf7f944590800000000000000
+      internalID: -7690846892480219889
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Elf (1)_11
+      rect:
+        serializedVersion: 2
+        x: 622
+        y: 537
+        width: 296
+        height: 326
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7f69c9657ff44ff30800000000000000
+      internalID: 4608396242435479287
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Elf (1)_12
+      rect:
+        serializedVersion: 2
+        x: 1133
+        y: 537
+        width: 296
+        height: 326
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 58ea2078c3eda70a0800000000000000
+      internalID: -6882944728937877883
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Elf (1)_13
+      rect:
+        serializedVersion: 2
+        x: 1646
+        y: 537
+        width: 296
+        height: 325
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f779fdb7e29c44a10800000000000000
+      internalID: 1892858944886380415
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Elf (1)_14
+      rect:
+        serializedVersion: 2
+        x: 2157
+        y: 537
+        width: 296
+        height: 324
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 69789c7c683c8a670800000000000000
+      internalID: 8550298876207794070
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Elf (1)_15
+      rect:
+        serializedVersion: 2
+        x: 109
+        y: 24
+        width: 297
+        height: 323
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e9a19977a58ed4560800000000000000
+      internalID: 7299746046288665246
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Elf (1)_16
+      rect:
+        serializedVersion: 2
+        x: 622
+        y: 24
+        width: 296
+        height: 322
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3cf9164e1ae58c100800000000000000
+      internalID: 128456638794407875
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Elf (1)_17
+      rect:
+        serializedVersion: 2
+        x: 1133
+        y: 24
+        width: 296
+        height: 320
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 414985167a2acf180800000000000000
+      internalID: -9080203908909329388
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Elf (1)_18
+      rect:
+        serializedVersion: 2
+        x: 1646
+        y: 24
+        width: 296
+        height: 319
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7e92ab86acf005350800000000000000
+      internalID: 6003315665299712487
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Elf (1)_19
+      rect:
+        serializedVersion: 2
+        x: 2157
+        y: 24
+        width: 296
+        height: 319
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cfb34e171e01585d0800000000000000
+      internalID: -3061021811263915012
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 1d01599aa0c9b9f4794b109ea8e89baa
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.0},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":7,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      Elf (1)_0: 1777794296738022681
+      Elf (1)_1: -1539775094346641137
+      Elf (1)_10: -7690846892480219889
+      Elf (1)_11: 4608396242435479287
+      Elf (1)_12: -6882944728937877883
+      Elf (1)_13: 1892858944886380415
+      Elf (1)_14: 8550298876207794070
+      Elf (1)_15: 7299746046288665246
+      Elf (1)_16: 128456638794407875
+      Elf (1)_17: -9080203908909329388
+      Elf (1)_18: 6003315665299712487
+      Elf (1)_19: -3061021811263915012
+      Elf (1)_2: 4005020749528154780
+      Elf (1)_3: -7736215792761888220
+      Elf (1)_4: -858870865867643051
+      Elf (1)_5: 6588975999543912259
+      Elf (1)_6: 1606365827811350875
+      Elf (1)_7: 7702053901010467635
+      Elf (1)_8: 2802941949414926700
+      Elf (1)_9: -7972926927468477770
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

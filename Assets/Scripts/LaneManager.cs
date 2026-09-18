@@ -120,6 +120,15 @@ public class LaneManager : MonoBehaviour
     public float maskOffsetY = 0.5f;
 
     private List<List<Ingredient>> activeLanes = new List<List<Ingredient>>();
+    public int ActiveLanesCount => activeLanes.Count;
+
+    public List<Ingredient> GetLaneIngredients(int laneIndex)
+    {
+        if (laneIndex >= 0 && laneIndex < activeLanes.Count)
+            return activeLanes[laneIndex];
+        return null;
+    }
+
     private LevelManager levelManager;
     private Dictionary<Ingredient, Coroutine> moveCoroutines = new Dictionary<Ingredient, Coroutine>();
 
@@ -442,6 +451,13 @@ public class LaneManager : MonoBehaviour
     public void OnKeyCollected()
     {
         currentKeysCollected++;
+        bool isFinalKey = currentKeysCollected >= totalKeysRequired;
+        
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.PlayKeyUnlock(isFinalKey);
+        }
+
         if (activeLock != null)
         {
             int remaining = totalKeysRequired - currentKeysCollected;
@@ -454,24 +470,44 @@ public class LaneManager : MonoBehaviour
         }
     }
 
-    public Ingredient FindIngredientForMagnet(IngredientType type)
+    public List<Ingredient> FindIngredientsForMagnet(IngredientType type, int maxCount)
     {
+        List<Ingredient> found = new List<Ingredient>();
+        
         for (int i = 0; i < activeLanes.Count; i++)
         {
             if (IsLaneLocked(i)) continue;
 
             List<Ingredient> laneIngredients = activeLanes[i];
-            for (int j = 0; j < laneIngredients.Count; j++)
+            
+            // Chi quet 11 nguyen lieu o phia truoc cua bang chuyen (nhung mon dang hien tren man hinh)
+            int scanLimit = Mathf.Min(11, laneIngredients.Count);
+            
+            for (int j = 0; j < scanLimit; j++)
             {
                 Ingredient ing = laneIngredients[j];
                 if (ing.ingredientType == type && !ing.hasKey && ing.mysteryGroup == null)
                 {
-                    PopIngredient(ing);
-                    return ing;
+                    found.Add(ing);
+                    if (found.Count >= maxCount) break;
                 }
             }
+            if (found.Count >= maxCount) break;
         }
-        return null;
+
+        foreach (Ingredient ing in found)
+        {
+            PopIngredient(ing);
+        }
+
+        return found;
+    }
+
+    // Phuong thuc cu giu lai de back-compatibility neu can
+    public Ingredient FindIngredientForMagnet(IngredientType type)
+    {
+        List<Ingredient> results = FindIngredientsForMagnet(type, 1);
+        return results.Count > 0 ? results[0] : null;
     }
 
     public void ShuffleLanes()

@@ -72,9 +72,18 @@ public class UIManager : MonoBehaviour
         if (losePopup != null) losePopup.SetActive(false);
         if (overlayPanel != null) overlayPanel.SetActive(false);
 
-        if (homePanel != null) homePanel.SetActive(true);
-        if (loadingPanel != null) loadingPanel.SetActive(false);
-        if (gamePanel != null) gamePanel.SetActive(false);
+        if (PlayerPrefs.GetInt("SkipHome", 0) == 1)
+        {
+            // Reset cờ và bay thẳng vào game
+            PlayerPrefs.SetInt("SkipHome", 0);
+            PlayGame();
+        }
+        else
+        {
+            if (homePanel != null) homePanel.SetActive(true);
+            if (loadingPanel != null) loadingPanel.SetActive(false);
+            if (gamePanel != null) gamePanel.SetActive(false);
+        }
     }
 
     public void PlayGame()
@@ -120,6 +129,16 @@ public class UIManager : MonoBehaviour
                 if (txt != null) txt.text = currentCoins.ToString();
             }
         }
+        
+        if (BoosterManager.Instance != null)
+        {
+            BoosterManager.Instance.UpdateBoosterButtons(currentCoins);
+        }
+    }
+
+    public int GetCoins()
+    {
+        return currentCoins;
     }
 
     public void UpdateHeartUI()
@@ -181,6 +200,11 @@ public class UIManager : MonoBehaviour
     public void RetryLevel()
     {
         Time.timeScale = 1f;
+        
+        // Cắm cờ để lúc load lại Scene nó bay thẳng vào Game luôn
+        PlayerPrefs.SetInt("SkipHome", 1);
+        PlayerPrefs.Save();
+        
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
@@ -194,15 +218,12 @@ public class UIManager : MonoBehaviour
     public void NextLevel()
     {
         Time.timeScale = 1f;
-        int nextSceneIndex = SceneManager.GetActiveScene().buildIndex + 1;
-        if (nextSceneIndex < SceneManager.sceneCountInBuildSettings)
-        {
-            SceneManager.LoadScene(nextSceneIndex);
-        }
-        else
-        {
-            Debug.Log("No more levels in build settings!");
-            GoHome();
-        }
+        
+        // Cắm cờ để lúc load lại Scene nó bay thẳng vào Game luôn
+        PlayerPrefs.SetInt("SkipHome", 1);
+        PlayerPrefs.Save();
+        
+        // Load lại chính Scene hiện tại (LevelManager sẽ tự động bốc Level tiếp theo vì đã +1 ở vòng trước)
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }

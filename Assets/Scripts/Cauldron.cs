@@ -1,5 +1,6 @@
 using UnityEngine;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 
 public class Cauldron : MonoBehaviour
@@ -28,6 +29,11 @@ public class Cauldron : MonoBehaviour
     
     private int currentStepIndex = 0;
     private int remainingQuantity = 0;
+
+    public int GetRemainingQuantity()
+    {
+        return remainingQuantity;
+    }
 
     void Start()
     {
@@ -84,6 +90,9 @@ public class Cauldron : MonoBehaviour
                     Transform targetMouth = (mouthPoint != null) ? mouthPoint : transform;
                     ing.StartAbsorb(targetMouth, absorbSpeed);
                     
+                    if (AudioManager.Instance != null)
+                        AudioManager.Instance.PlayIngredientToCauldron();
+                    
                     remainingQuantity--;
                     
                     if (remainingQuantity <= 0)
@@ -126,23 +135,44 @@ public class Cauldron : MonoBehaviour
             isBusy = false;
             currentSteps = null;
             
-            // Chay animation Vạc
-            if (cauldronAnimator != null && !string.IsNullOrEmpty(shootTriggerName))
-            {
-                cauldronAnimator.SetTrigger(shootTriggerName);
-            }
-
-            // Spawn hieu ung effect
-            if (shootEffectPrefab != null)
-            {
-                Vector3 spawnPos = spawnPoint != null ? spawnPoint.position : transform.position;
-                GameObject fx = Instantiate(shootEffectPrefab, spawnPos, Quaternion.identity);
-                Destroy(fx, 3f); // Tu huy sau 3 giay
-            }
-
-            if (GameEventHandler.Instance != null)
-                GameEventHandler.Instance.RecipeCompleted(this);
+            StartCoroutine(WaitForAbsorbThenShoot());
         }
+    }
+
+    IEnumerator WaitForAbsorbThenShoot()
+    {
+        while (true)
+        {
+            Ingredient[] allIng = FindObjectsByType<Ingredient>(FindObjectsSortMode.None);
+            bool anyAbsorbing = false;
+            foreach (Ingredient ing in allIng)
+            {
+                if (ing.isBeingAbsorbed)
+                {
+                    anyAbsorbing = true;
+                    break;
+                }
+            }
+            if (!anyAbsorbing) break;
+            yield return null;
+        }
+
+        if (cauldronAnimator != null)
+        {
+            cauldronAnimator.SetTrigger(shootTriggerName);
+            if (AudioManager.Instance != null)
+                AudioManager.Instance.PlayCauldronBoil();
+        }
+
+        if (shootEffectPrefab != null)
+        {
+            Vector3 spawnPos = spawnPoint != null ? spawnPoint.position : transform.position;
+            GameObject fx = Instantiate(shootEffectPrefab, spawnPos, Quaternion.identity);
+            Destroy(fx, 3f);
+        }
+
+        if (GameEventHandler.Instance != null)
+            GameEventHandler.Instance.RecipeCompleted(this);
     }
 
     void OnDrawGizmosSelected()
@@ -187,6 +217,9 @@ public class Cauldron : MonoBehaviour
         // Tang toc do bay khi dung nam cham
         ing.StartAbsorb(targetMouth, absorbSpeed * 2f); 
         
+        if (AudioManager.Instance != null)
+            AudioManager.Instance.PlayIngredientToCauldron();
+        
         remainingQuantity--;
         
         if (remainingQuantity <= 0)
@@ -201,3 +234,4 @@ public class Cauldron : MonoBehaviour
         UpdatePopUp();
     }
 }
+

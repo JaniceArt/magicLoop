@@ -30,14 +30,33 @@ public class Ingredient : MonoBehaviour
 
     void Update()
     {
-        if (Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame)
+        bool isPressed = false;
+        Vector2 screenPos = Vector2.zero;
+
+        if (Touchscreen.current != null && Touchscreen.current.primaryTouch.press.wasPressedThisFrame)
+        {
+            isPressed = true;
+            screenPos = Touchscreen.current.primaryTouch.position.ReadValue();
+        }
+        else if (Pointer.current != null && Pointer.current.press.wasPressedThisFrame)
+        {
+            isPressed = true;
+            screenPos = Pointer.current.position.ReadValue();
+        }
+        else if (Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame)
+        {
+            isPressed = true;
+            screenPos = Mouse.current.position.ReadValue();
+        }
+
+        if (isPressed)
         {
             if (Time.frameCount == lastClickFrame) return;
 
             if (col != null && Camera.main != null)
             {
-                Vector2 mousePos = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
-                if (col.OverlapPoint(mousePos))
+                Vector2 worldPos = Camera.main.ScreenToWorldPoint(screenPos);
+                if (col.OverlapPoint(worldPos))
                 {
                     if (laneManager != null)
                     {
@@ -53,7 +72,6 @@ public class Ingredient : MonoBehaviour
     {
         if (mysteryGroup != null && !mysteryGroup.isRevealed)
         {
-            Debug.Log("Không thể click vì nguyên liệu đang bị ẩn (Mystery)!");
             return;
         }
 
@@ -72,7 +90,6 @@ public class Ingredient : MonoBehaviour
             }
         }
 
-        Debug.Log("Radar xác nhận đã click vào nấm trên cùng: " + gameObject.name);
         if (isSlotted || isBeingAbsorbed || isFlying) return;
 
         SlotMovement[] allSlots = FindObjectsByType<SlotMovement>(FindObjectsSortMode.None);
@@ -135,14 +152,12 @@ public class Ingredient : MonoBehaviour
     {
         if (col != null) col.enabled = false; 
 
-
         transform.SetParent(slot.transform);
         Vector3 startLocalPos = transform.localPosition;
         float t = 0;
 
         while (t < 1f)
         {
-
             t += Time.deltaTime * 4f; 
             transform.localPosition = Vector3.Lerp(startLocalPos, Vector3.zero, t);
             yield return null;
@@ -151,6 +166,7 @@ public class Ingredient : MonoBehaviour
         transform.localPosition = Vector3.zero;
         isSlotted = true; 
         isFlying = false;
+        if (AudioManager.Instance != null) AudioManager.Instance.PlayIngredientToSlot();
     }
 
     public void StartAbsorb(Transform mouth, float absorbSpeed)
@@ -161,13 +177,11 @@ public class Ingredient : MonoBehaviour
 
     IEnumerator AbsorbRoutine(Transform mouth, float absorbSpeed)
     {
-
         while (Vector3.Distance(transform.position, mouth.position) > 0.1f)
         {
             transform.position = Vector3.MoveTowards(transform.position, mouth.position, absorbSpeed * Time.deltaTime);
             yield return null;
         }
-
 
         SpriteRenderer sr = GetComponent<SpriteRenderer>();
         Vector3 startScale = transform.localScale;
@@ -177,16 +191,10 @@ public class Ingredient : MonoBehaviour
         {
             t += Time.deltaTime * 3f;
             
-
             transform.Rotate(0, 0, 1080f * Time.deltaTime); 
-            
-
             transform.position += Vector3.down * 1.0f * Time.deltaTime; 
-            
-
             transform.localScale = Vector3.Lerp(startScale, Vector3.zero, t);
             
-
             if (sr != null)
             {
                 Color c = sr.color;

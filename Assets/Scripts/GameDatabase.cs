@@ -40,6 +40,13 @@ public class GameDatabase : ScriptableObject
     public Sprite dwarfSprite;
     public Sprite mysteryMaskSprite;
 
+    [Header("Customer Animators (Tùy chọn)")]
+    public RuntimeAnimatorController witchAnimator;
+    public RuntimeAnimatorController elfAnimator;
+    public RuntimeAnimatorController goblinAnimator;
+    public RuntimeAnimatorController demonAnimator;
+    public RuntimeAnimatorController dwarfAnimator;
+
     public Sprite[] numberSprites = new Sprite[10];
     public List<PotionRecipeData> allRecipes = new List<PotionRecipeData>();
 
@@ -53,6 +60,19 @@ public class GameDatabase : ScriptableObject
             case CustomerType.Demon: return demonSprite;
             case CustomerType.Dwarf: return dwarfSprite;
             default: return witchSprite;
+        }
+    }
+
+    public RuntimeAnimatorController GetCustomerAnimator(CustomerType type)
+    {
+        switch (type)
+        {
+            case CustomerType.PhuThuy: return witchAnimator;
+            case CustomerType.Elf: return elfAnimator;
+            case CustomerType.Goblin: return goblinAnimator;
+            case CustomerType.Demon: return demonAnimator;
+            case CustomerType.Dwarf: return dwarfAnimator;
+            default: return witchAnimator;
         }
     }
 
